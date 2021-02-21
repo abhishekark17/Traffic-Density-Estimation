@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
 
 
 	// read image properly
-	string path = "Resources/cards.jpg";
+	string path = "empty.jpg";
 	Mat img = imread(path);		
 	if (img.empty()) {
 		cout << "Error: Image file is empty" << endl;
@@ -39,8 +39,8 @@ int main(int argc, char* argv[]) {
 	} 
 
 		
-	//int w = img.size().width, h = img.size().height; // w = 1920 h = 1080
-	int w = 250, h = 350;
+	int w = img.size().width, h = img.size().height; // w = 1920 h = 1080
+	//int w = 250, h = 350;
 	Size size(w, h);	// Destination size?? not clear as of now. hit and trial??
 
 	// we take input as taken by Riju Ma'am, i.e top left first and then anti clockwise direction
