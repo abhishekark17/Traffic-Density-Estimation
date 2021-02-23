@@ -24,15 +24,22 @@ void getPointsFromUser(int event, int x, int y, int flags, void* userData) {
 
 
 
-int main(int argc, char* argv[]) {
+int main(int argc, char** argv) {
 	//	resetting both vectors	//
 
 	inputPts.clear();
 	Pts_dst.clear();
+	string path="empty.jpg";
 
 
 	//	read image properly	//
-	string path = "empty.jpg";
+	if (argc==1){
+		cout<<"Image file should be given as argument"<<endl;
+		
+	}
+	else{
+		path = argv[1];
+	}
 	img = imread(path);
 	if (img.empty()) {
 		cout << "Error: Image file is empty" << endl;

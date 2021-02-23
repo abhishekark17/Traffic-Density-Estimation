@@ -28,11 +28,17 @@ int main(int argc, char* argv[]) {
 	//	resetting both vectors	//
 
 	inputPts.clear();
-	Pts_dst.clear();		
+	Pts_dst.clear();
+	string path="";		
 
 
 	//	read image properly	//
-	string path = "empty.jpg";
+	if (argc==1){
+		cout<<"Provide image file name as an argument"<<endl;
+	}
+	else{
+		path=argv[1];
+	}
 	Mat img = imread(path);		
 	if (img.empty()) {
 		cout << "Error: Image file is empty" << endl;
