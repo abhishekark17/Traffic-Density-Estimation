@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
 
 	inputPts.clear();
 	Pts_dst.clear();
-	string path="empty.jpg";
+	string path="images/empty.jpg";
 
 
 	//	read image properly	//
@@ -38,7 +38,8 @@ int main(int argc, char** argv) {
 		
 	}
 	else{
-		path = argv[1];
+		string imageFileName=argv[1];
+		path = "images/"+imageFileName;
 	}
 	img = imread(path);
 	if (img.empty()) {
@@ -82,9 +83,9 @@ int main(int argc, char** argv) {
 
 	//	show and write operations	//
 	imshow("Projected Frame", transformedGray);
-	imwrite("transformedEmpty.jpg", transformedGray);
+	imwrite("images/transformedEmpty.jpg", transformedGray);
 	imshow("Cropped Frame", croppedImg);
-	imwrite("croppedEmpty.jpg", croppedImg);
+	imwrite("images/croppedEmpty.jpg", croppedImg);
 	waitKey(0);
 
 
