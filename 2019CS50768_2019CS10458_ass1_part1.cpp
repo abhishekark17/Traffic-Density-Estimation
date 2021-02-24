@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
 
 	//	Take Points as Input	//
 	cvtColor(img, imgGray, COLOR_BGR2GRAY); //	rgb to grayscale	//
-	resize(imgGray, imgGray, Size(), 0.5, 0.5);	//	fit/scale the window for user else very big	//
+	//resize(imgGray, imgGray, Size(), 0.5, 0.5);	//	fit/scale the window for user else very big	//
 	imshow("Original Frame", imgGray);
 
 	setMouseCallback("Original Frame", getPointsFromUser, &inputPts);	// take input
@@ -73,11 +73,11 @@ int main(int argc, char** argv) {
 	//	Transform now!	//
 	Mat matrix = getPerspectiveTransform(inputPts, Pts_dst);	// get homography matrix
 	warpPerspective(imgGray, transformedGray, matrix, size);
-	resize(transformedGray, transformedGray, Size(), 0.5, 0.5);
+	//resize(transformedGray, transformedGray, Size(), 0.5, 0.5);
 
 
 	//	cropping	//
-	Rect roi(Point2i(240, 30), Point2i(400, 410));	//rect structure for cropping
+	Rect roi(Point2i(472,52), Point2i(800,830));	//rect structure for cropping
 	croppedImg = transformedGray(roi);
 
 
