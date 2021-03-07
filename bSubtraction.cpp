@@ -34,19 +34,24 @@ int main(int argc, char* argv[])
    
     //getBackground(videopath);
     String imagepath="images/emptyBackground.jpg";
+    Mat back;
+    back=imread(imagepath,IMREAD_GRAYSCALE);
     VideoCapture cap(videopath);
     Ptr<BackgroundSubtractor> bsub;
     bsub=createBackgroundSubtractorMOG2();
     Mat frame,fmask;
-    Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
+    //Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
     while(true){
     	
     	cap>>frame;
-    	bsub->apply(frame,fmask);
-    	morphologyEx(fmask, fmask,MORPH_ELLIPSE, kernel);
-
-    	imshow("foreground",fmask);
+    	cvtColor(frame,frame,COLOR_RGBA2GRAY,0);
+    	//bsub->apply(frame,fmask);
+    	//morphologyEx(fmask, fmask,MORPH_ELLIPSE, kernel);
+    	absdiff(frame,back,fmask);
+    	
+    	
     	//imshow("normal",frame);
+    	imshow("Amsked",fmask);
     	if(waitKey(1)==27) {
     		destroyAllWindows();
     		break;
