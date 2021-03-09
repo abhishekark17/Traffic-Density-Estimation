@@ -26,6 +26,7 @@ void getPointsFromUser(int event, int x, int y, int flags, void* userData) {
 
 int main(int argc, char** argv) {
 	//	resetting both vectors	//
+	Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
 
 	inputPts.clear();
 	Pts_dst.clear();

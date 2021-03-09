@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
@@ -102,6 +103,7 @@ void getBackground(String path){
 }
 */
 
+/*
 //This function finds the contours and give the bounding box around the object
 void getContours(Mat image,Mat imgOriginal){
 	vector<vector<Point>> contours;
@@ -114,7 +116,7 @@ void getContours(Mat image,Mat imgOriginal){
 
 	for(int i=0;i<contours.size();i++){
 		int area = contourArea(contours[i]);
-		if(area>1000 && area<10000){
+		if(area>1000 && area<5000){
 			float peri = arcLength(contours[i],true);
 			approxPolyDP(contours[i],conPoly[i],0.02*peri,true);
 			//drawContours(imgOriginal,conPoly,-1,Scalar(255,0,255),2);
@@ -125,7 +127,9 @@ void getContours(Mat image,Mat imgOriginal){
 	}
 
 }
+*/
 
+/*
 //Object detection and application of contour function
 void edgeDetector(Mat image,Mat imgOriginal){
 	Mat imgBlur,imgCanny,imgDil,imgErode;
@@ -137,7 +141,9 @@ void edgeDetector(Mat image,Mat imgOriginal){
 
 	//contour detection
 	getContours(imgDil,imgOriginal);
+
 }
+*/
 
 
 
@@ -155,30 +161,41 @@ int main(int argc, char* argv[])
     //Ptr<BackgroundSubtractor> bsub;
     //bsub=createBackgroundSubtractorMOG2();
     Mat frame,fmask,frameGray;
+    //int countOnLine1,countOnLine2;
     //Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
-	
+	ofstream file("data.csv");
+	file<<"Frame,QueueDensity\n";
+	int frameNumber=0;
     while(true){
     	
     	cap>>frame;
 
-		
+		frameNumber+=1;
 		//warping individual frames one by one
 		frame=warpWithoutUserInput(frame);
 		cvtColor(frame,frameGray,COLOR_RGB2GRAY,0);
 
     	
-    	//bsub->apply(frame,fmask);
+    	//bsub->apply(frameGray,fmask);
     	//morphologyEx(fmask, fmask,MORPH_ELLIPSE, kernel);
+
     	absdiff(frameGray,back,fmask);
     	//imshow("normal",frame);
-    	edgeDetector(fmask,frame);
-		imshow("final",frame);
+    	threshold( fmask, fmask, 30,255,THRESH_BINARY);
+    	//edgeDetector(fmask,fmask);
+		int totalPixels = fmask.rows*fmask.cols;
+		int whitePixels = countNonZero(fmask);
+		float density = (float)whitePixels/(float)totalPixels;
+		file<<frameNumber<<","<<density<<"\n";
+    	// line(fmask, Point(0, 10), Point(fmask.cols, 10), Scalar(255,255,255), 3);
+    	// line(fmask, Point(0, fmask.rows-10), Point(fmask.cols, fmask.rows-10), Scalar(255,255,255), 3);
+		imshow("final",fmask);
 		if(waitKey(1)==27) {
-    		destroyAllWindows();
     		break;
     	}
 
     }
+	file.close();
     destroyAllWindows();
     return 0;
 }
