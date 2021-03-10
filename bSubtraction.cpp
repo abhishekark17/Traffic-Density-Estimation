@@ -148,23 +148,39 @@ void edgeDetector(Mat image,Mat imgOriginal){
 
 
 int main(int argc, char* argv[])
-{
-    String videopath="video/trafficvideo.mp4";
-   
+{	
+	string videopath="video/trafficvideo.mp4";
+	//	read image properly	//
+	if (argc==1){
+		cout<<"Video file should be given as argument"<<endl;
+		
+	}
+	else{
+		string videoFileName=argv[1];
+		videopath = "video/"+videoFileName;
+	}
+    VideoCapture cap(videopath);
+
+	if (!cap.isOpened()) {
+		cout << "Error: video file is empty" << endl;
+		return -1;
+	}
+	
     //getBackground(videopath);
     String imagepath="images/emptyBackground.jpg";
     Mat back;
 	back = imread(imagepath);
     back = warp(back);
 
-    VideoCapture cap(videopath);
-    //Ptr<BackgroundSubtractor> bsub;
-    //bsub=createBackgroundSubtractorMOG2();
-    Mat frame,fmask,frameGray;
+    Ptr<BackgroundSubtractor> bsub;
+    bsub=createBackgroundSubtractorMOG2();
+    Mat frame,fmask,frameGray,frameDensity;
     //int countOnLine1,countOnLine2;
-    //Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
+    Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
 	ofstream file("data.csv");
-	file<<"Frame,QueueDensity\n";
+	bsub->apply(back,frameDensity);
+	file<<"Frame,QueueDensity,DynamicDensity\n";
+	cout<<"Frame,QueueDensity,DynamicDensity\n";
 	int frameNumber=0;
     while(true){
     	
@@ -175,9 +191,8 @@ int main(int argc, char* argv[])
 		frame=warpWithoutUserInput(frame);
 		cvtColor(frame,frameGray,COLOR_RGB2GRAY,0);
 
-    	
-    	//bsub->apply(frameGray,fmask);
-    	//morphologyEx(fmask, fmask,MORPH_ELLIPSE, kernel);
+    	bsub->apply(frameGray,frameDensity);
+    	morphologyEx(frameDensity, frameDensity,MORPH_ELLIPSE, kernel);
 
     	absdiff(frameGray,back,fmask);
     	//imshow("normal",frame);
@@ -185,12 +200,16 @@ int main(int argc, char* argv[])
     	//edgeDetector(fmask,fmask);
 		int totalPixels = fmask.rows*fmask.cols;
 		int whitePixels = countNonZero(fmask);
+		int whitePixels2= countNonZero(frameDensity);
 		float density = (float)whitePixels/(float)totalPixels;
-		file<<frameNumber<<","<<density<<"\n";
+		float dynamicDensity = (float)whitePixels2/(float)totalPixels;
+		file<<(float)frameNumber/(float)(15.0)<<","<<density<<","<<dynamicDensity<<"\n";
+		cout<<frameNumber<<","<<density<<","<<dynamicDensity<<"\n";
+		
     	// line(fmask, Point(0, 10), Point(fmask.cols, 10), Scalar(255,255,255), 3);
     	// line(fmask, Point(0, fmask.rows-10), Point(fmask.cols, fmask.rows-10), Scalar(255,255,255), 3);
-		imshow("final",fmask);
-		if(waitKey(1)==27) {
+		imshow("final",frame);
+		if(waitKey(20)==27) {
     		break;
     	}
 
