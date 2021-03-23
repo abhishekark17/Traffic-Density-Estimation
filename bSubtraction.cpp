@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <queue>
 #include <fstream>
 #include <sstream>
 #include <opencv2/imgcodecs.hpp>
@@ -87,8 +88,8 @@ Mat filterImage (Mat img_bw) {
     //img_bw = img_bw > 5;
 
     // Define the structuring elements
-    Mat se1 = getStructuringElement(MORPH_ELLIPSE, Size(4, 4));
-    Mat se2 = getStructuringElement(MORPH_ELLIPSE, Size(4, 4));
+    Mat se1 = getStructuringElement(MORPH_RECT, Size(5, 5));
+    Mat se2 = getStructuringElement(MORPH_RECT, Size(5, 5));
 
     // Perform closing then opening
     Mat mask;
@@ -100,6 +101,7 @@ Mat filterImage (Mat img_bw) {
     out.setTo(Scalar(0), mask == 0);
 
 	return out;
+	//return mask;
 }
 
 Mat performBackgroundSubtraction (Mat& inputFrame, Mat& backGround) {
@@ -110,7 +112,7 @@ Mat performBackgroundSubtraction (Mat& inputFrame, Mat& backGround) {
 }
 
 Mat performOpticalFlow (Mat& previous, Mat& next ) {
-	Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(5, 5)); 
+	Mat kernel = getStructuringElement(MORPH_RECT, Size(5, 5)); 
 
 	//	Define Optical flow parameters	//
 	Mat flow(previous.size(), CV_32FC2);
@@ -139,7 +141,7 @@ Mat performOpticalFlow (Mat& previous, Mat& next ) {
 	//	To process the optical flow output and remove noise	//
 	
 	opticalFlowOutput = filterImage(opticalFlowOutput);
-	morphologyEx(opticalFlowOutput, opticalFlowOutput,MORPH_ELLIPSE, kernel);
+	morphologyEx(opticalFlowOutput, opticalFlowOutput,MORPH_RECT, kernel);
 	threshold( opticalFlowOutput, opticalFlowOutput, 12 ,255,THRESH_BINARY);
 	return opticalFlowOutput;
 }
@@ -179,9 +181,22 @@ int main(int argc, char* argv[])
 	int totalPixels = backGround.rows * backGround.cols;
 
 	// previous :: First frame of the video to begin optical flow. Later on will be used as previous frame in while loop for optical flow	//
-	Mat previous; cap >> previous;
-	cvtColor(previous , previous, COLOR_BGR2GRAY);
-	previous = warpWithoutUserInput(previous);
+	
+	const int queueLength = 5;
+	queue<Mat> myQueue;
+	for (int i = 0; i < queueLength; i++) {
+		Mat temp;
+		cap >> temp;
+		cvtColor(temp,temp,COLOR_BGR2GRAY);
+		temp = warpWithoutUserInput(temp);
+		myQueue.push(temp);
+	}
+	
+	Mat previous = myQueue.front();
+	myQueue.pop();
+
+	//cvtColor(previous , previous, COLOR_BGR2GRAY);
+	//previous = warpWithoutUserInput(previous);
 
 
 	file<<"Frame,QueueDensity,DynamicDensity\n";
@@ -190,12 +205,15 @@ int main(int argc, char* argv[])
 
     while(true){	
 		Mat inputNextFrame; 
-		cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;
+		cap >> inputNextFrame;// cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;
+		//cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;
 		if (inputNextFrame.empty()) break;
-		frameNumber += 5;	//	taking every 5th frame - Ma'am said we can take every 3rd or 5th	//
+		frameNumber += 1;	//	taking every 5th frame - Ma'am said we can take every 3rd or 5th	//
 
 		cvtColor(inputNextFrame, inputNextFrame, COLOR_BGR2GRAY);
 		inputNextFrame = warpWithoutUserInput(inputNextFrame);
+		myQueue.push(inputNextFrame);
+
 		imshow("Original Video" , inputNextFrame);
 		
 
@@ -211,8 +229,10 @@ int main(int argc, char* argv[])
 		
 		int keyboard = waitKey(1);
         if (keyboard == 'q' || keyboard == 27) break;
-		previous = inputNextFrame;
-    	
+
+		//previous = inputNextFrame;
+		previous = myQueue.front();
+		myQueue.pop();
     }
 	file.close();
     destroyAllWindows();
