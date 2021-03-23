@@ -11,9 +11,6 @@
 
 //  PLEASE NOTE  //
 
-using namespace cv;
-using namespace std;
 
-
-Mat filterImage (Mat & img_bw);
-Mat performOpticalFlow (Mat& previous, Mat& next);
+cv::Mat filterImage (cv::Mat & img_bw);
+cv::Mat performOpticalFlow (cv::Mat& previous, cv::Mat& next);
