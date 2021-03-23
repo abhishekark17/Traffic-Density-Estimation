@@ -1,16 +1,3 @@
-
-#include <iostream>
-#include <queue>
-#include <fstream>
-#include <sstream>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/videoio.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/video.hpp>
-#include <opencv2/video/tracking.hpp>
-
-//  PLEASE NOTE  //
 #include "IO.hpp"
 
 using namespace cv;
@@ -92,8 +79,19 @@ void performOutput (int whitePixels1, int whitePixels2, int totalPixels, int fra
 	float queueDensity = (float) whitePixels1 / (float) totalPixels;
 	float dynamicDensity = (float) whitePixels2 / (float) totalPixels;
 
-	file << (float) frameNumber / (float) (15.0) << "," << queueDensity << "," << dynamicDensity << endl;
+	file << (float) frameNumber / (float) (15.0) << "," << queueDensity << "," << dynamicDensity << "\n";
 	cout << frameNumber << "," << dynamicDensity << "," << dynamicDensity << "\n";
 
+	return;
+}
+
+void performOutputM1 (int whitePixels1,int whitePixels2,int totalPixels,int frameNumber,ofstream& file,int x) {
+	float queueDensity = (float) whitePixels1 / (float) totalPixels;
+	float dynamicDensity = (float) whitePixels2 / (float) totalPixels;
+
+	for (int i = 0; i < x; i++) {
+		file << (float) (frameNumber + i) / (float) (15.0) << "," << queueDensity << "," << dynamicDensity << "\n";
+		cout << frameNumber + i << "," << dynamicDensity << "," << dynamicDensity << "\n";
+	}
 	return;
 }

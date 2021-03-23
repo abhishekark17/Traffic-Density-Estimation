@@ -24,5 +24,5 @@ void getPointsFromUser(int event, int x, int y, int flags, void* userData);
 Mat warp(Mat img);
 Mat warpWithoutUserInput(Mat image);
 void performOutput (int whitePixels1, int whitePixels2, int totalPixels, int frameNumber, ofstream& file);
-
+void performOutputM1(int whitePixels1,int whitePixels2,int totalPixels,int frameNumber,ofstream& file,int x);
 
