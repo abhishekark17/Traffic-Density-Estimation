@@ -79,7 +79,7 @@ void performOutput (int whitePixels1, int whitePixels2, int totalPixels, int fra
 	float queueDensity = (float) whitePixels1 / (float) totalPixels;
 	float dynamicDensity = (float) whitePixels2 / (float) totalPixels;
 
-	file << (float) frameNumber / (float) (15.0) << "," << queueDensity << "," << dynamicDensity << "\n";
+	file << frameNumber << "," << queueDensity << "," << dynamicDensity << "\n";
 	cout << frameNumber << "," << dynamicDensity << "," << dynamicDensity << "\n";
 
 	return;
@@ -90,7 +90,7 @@ void performOutputM1 (int whitePixels1,int whitePixels2,int totalPixels,int fram
 	float dynamicDensity = (float) whitePixels2 / (float) totalPixels;
 
 	for (int i = 0; i < x; i++) {
-		file << (float) (frameNumber + i) / (float) (15.0) << "," << queueDensity << "," << dynamicDensity << "\n";
+		file << (frameNumber + i)<< "," << queueDensity << "," << dynamicDensity << "\n";
 		cout << frameNumber + i << "," << dynamicDensity << "," << dynamicDensity << "\n";
 	}
 	return;
