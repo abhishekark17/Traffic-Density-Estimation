@@ -19,3 +19,4 @@ using namespace std;
 
 void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength);
 void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength,int x,int y);
+void performSpecialSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength, int beginFrame, int endFrame, int threadNumber); 

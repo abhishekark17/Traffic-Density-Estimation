@@ -1,7 +1,6 @@
 #include <iostream>
-#include <chrono>
-#include <thread>
 #include <queue>
+#include <thread>
 #include <fstream>
 #include <sstream>
 #include <opencv2/imgcodecs.hpp>
@@ -17,16 +16,9 @@
 #include "BGSubtraction.hpp"
 #include "IO.hpp"
 #include "SubTask2.hpp"
-#include "MethodOne.hpp"
-#include "MethodTwo.hpp"
-#include "methodThree.hpp"
-#include "MethodFive.hpp"
-
 
 using namespace cv;
 using namespace std;
 
-int main(int argc, char* argv[]);
-
-
-
+void workForEachThread (string videoPath, Mat backGround,int queueLength, int beginFrame, int endFrame, int threadNumber);
+void performMethod5 (string& videoPath, Mat& backGround,int queueLength, int numThreads);

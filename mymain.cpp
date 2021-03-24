@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 
 	//ofstream file("data.csv");	
 	//ofstream fileM1 ("dataM1.csv");
-	ofstream fileM2 ("dataM2.csv");
+	//ofstream fileM2 ("dataM2.csv");
 	//ofstream fileM3 ("dataM3.csv");
 	//ofstream fileM4 ("dataM4.csv");
 	//ofstream fileM5 ("dataM5.csv");
@@ -30,18 +30,35 @@ int main(int argc, char* argv[])
 	
     //	backGround :: Fixed background for background subtraction for vehicular density	//
     Mat backGround = imread(imagepath);
+	
+
+	auto startTime = chrono::high_resolution_clock::now();
+
+	///////////////////////////////////////////////////////////	 WORKSPACE	/////////////////////////////////////////////////////////////////////
 
 	//	This was for Assignment Subtask-2	//
 	//performSubtask2(backGround, cap, file, 5);
 
 
+
 	//performMethod1 (backGround,cap,fileM1,4,10);
-	performMethod2 (backGround, cap, fileM2, 4);
+	//performMethod2 (backGround, cap, fileM2, 4);
 	//performMethod3 (backGround, cap, fileM3, 5,1080,720);
+
+	backGround = warp(backGround);
+	performMethod5(videopath,backGround,5,5);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	auto stopTime = chrono::high_resolution_clock::now();
+	auto duration = chrono::duration_cast<chrono::seconds> (stopTime - startTime);
+	cout << endl << endl ;
+	cout << "TOTAL EXECUTION TIME (Method-5):: " << duration.count() << "SECONDS\n\n";
+	
 
 	//file.close();
 	//fileM1.close();
-	fileM2.close();
+	//fileM2.close();
 	//fileM3.close();
 	//fileM4.close();
 	//fileM5.close();
