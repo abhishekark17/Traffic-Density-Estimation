@@ -9,13 +9,13 @@
 #include <opencv2/video.hpp>
 #include <opencv2/video/tracking.hpp>
 
-//  PLEASE NOTE  //
 #include "OpticalFlow.hpp"
 #include "BGSubtraction.hpp"
 #include "IO.hpp"
+#include "SubTask2.hpp"
 
 using namespace cv;
 using namespace std;
 
-void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength);
-void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength,int x,int y);
+void performMethod3 (Mat& backGround, VideoCapture& cap, ofstream& file,  int queueLength,int x,int y) ;
+

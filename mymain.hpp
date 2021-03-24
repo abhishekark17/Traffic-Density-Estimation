@@ -16,7 +16,8 @@
 #include "IO.hpp"
 #include "SubTask2.hpp"
 #include "MethodOne.hpp"
-
+#include "MethodTwo.hpp"
+#include "methodThree.hpp"
 
 
 using namespace cv;

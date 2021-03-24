@@ -73,6 +73,69 @@ Mat warpWithoutUserInput(Mat image){
 	return image;
 }
 
+//For change in Resolutiion
+Mat warp(Mat img,int x, int y) {
+	//	resetting both vectors	//
+	Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
+	Mat transformedGray;	// bird eye view of grayscale image: saved in memory	//
+	Mat croppedImg;
+
+	inputPts.clear();
+	Pts_dst.clear();
+	if (img.empty()) {
+		cout << "Error: Image file is empty" << endl;
+		return img;
+	}
+
+
+	int w = img.size().width, h = img.size().height; //	w = 1920 h = 1080*scale	//
+	Size size(w, h);	//	Input image resolution as checked by image properties also	//
+	cout<<w<<" "<<h<<endl;
+
+
+	//	we take input as taken by Riju Ma'am, i.e top left point first and then in anti clockwise direction	//
+	//	these points below for destination transformation are as given by Riju Ma'am on the Course Website	//
+	float scale=(float)1920/(float)(x);
+	float scale1=(float)1080/(float)(y);
+	Pts_dst.push_back(Point2f((int)((float)472/scale), (int)((float)52/scale1)));
+	Pts_dst.push_back(Point2f((int)((float)472/scale), (int)((float)830/scale1)));
+	Pts_dst.push_back(Point2f((int)((float)800/scale), (int)((float)830/scale1)));
+	Pts_dst.push_back(Point2f((int)((float)800/scale), (int)((float)52/scale1)));
+
+
+	//	Take Points as Input	//
+	cvtColor(img, imgGray, COLOR_BGR2GRAY); //	rgb to grayscale	//
+	imshow("Original Frame", imgGray);
+
+	setMouseCallback("Original Frame", getPointsFromUser, &inputPts);	// take input
+	waitKey(0);	//	wait for infinite time till user presses any key.
+
+	//	Transform now!	//
+	Mat matrix = getPerspectiveTransform(inputPts, Pts_dst);	// get homography matrix
+	warpPerspective(imgGray, transformedGray, matrix, size);
+	//resize(transformedGray, transformedGray, Size(), 0.5, 0.5);
+
+
+	//	cropping	//
+	Rect roi(Point2i((int)((float)472/scale),(int)((float)52/scale1)), Point2i((int)((float)800/scale),(int)((float)830/scale1)));	//rect structure for cropping
+	croppedImg = transformedGray(roi);
+
+	waitKey(0);
+	return croppedImg;
+}
+
+Mat warpWithoutUserInput(Mat image,int x, int y){
+	int w = image.size().width, h = image.size().height; //	w = 1920*scale h = 1080*scale	//
+	float scale=(float)1920/float(x);
+	float scale1=(float)1080/float(y);
+	Size size(w, h);	//	Input image resolution as checked by image properties also	//
+	Mat matrix = getPerspectiveTransform(inputPts, Pts_dst);
+	warpPerspective(image, image, matrix, size);
+	Rect roi(Point2i((int)((float)472/scale),(int)((float)52/scale1)), Point2i((int)((float)800/scale),(int)((float)830/scale1)));	//rect structure for cropping
+	image = image(roi);
+	return image;
+}
+
 
 
 void performOutput (int whitePixels1, int whitePixels2, int totalPixels, int frameNumber, ofstream& file) {

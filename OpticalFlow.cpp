@@ -25,6 +25,15 @@ Mat filterImage (Mat & img_bw) {
 	//return mask;
 }
 
+//  This is Dense Optical Flow  //
+/*
+Difference: 
+    Lucas-Kanade is a sparse technique,
+    sparse techniques only need to process some pixels from the whole image, 
+    dense techniques process all the pixels. Dense techniques are slower but can be more accurate, 
+    but in my experience Lucas-Kanade accuracy might be enough for real-time applications. 
+    An example of a dense optical flow algorithm (the most popular) is Gunner Farneback's Optical Flow.
+*/
 
 Mat performOpticalFlow (Mat& previous, Mat& next ) {
 	Mat kernel = getStructuringElement(MORPH_RECT, Size(5, 5)); 
@@ -59,6 +68,14 @@ Mat performOpticalFlow (Mat& previous, Mat& next ) {
 	morphologyEx(opticalFlowOutput, opticalFlowOutput,MORPH_RECT, kernel);
 	threshold( opticalFlowOutput, opticalFlowOutput, 12 ,255,THRESH_BINARY);
 	return opticalFlowOutput;
+}
+
+//  Lucas-Kanade    //
+void sparseOpticalFlow (Mat& previous, Mat& next ) {
+
+
+
+    return;
 }
 
 

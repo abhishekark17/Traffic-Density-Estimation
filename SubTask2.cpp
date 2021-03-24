@@ -60,3 +60,63 @@ void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int qu
     destroyAllWindows();
     return;
 }
+
+void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength,int x, int y) {
+
+    backGround = warp(backGround,x,y);
+	int totalPixels = backGround.rows * backGround.cols;
+
+    //const int queueLength = 5;
+	queue<Mat> myQueue;
+	for (int i = 0; i < queueLength; i++) {
+		Mat temp;
+		cap >> temp;
+		resize(temp,temp,Size(x,y),0,0,INTER_LINEAR);
+		cvtColor(temp,temp,COLOR_BGR2GRAY);
+		temp = warpWithoutUserInput(temp,x,y);
+		myQueue.push(temp);
+	}
+	
+	Mat previous = myQueue.front();
+	myQueue.pop();
+
+
+	file<<"Frame,QueueDensity,DynamicDensity\n";
+	cout<<"Frame,QueueDensity,DynamicDensity\n";
+	int frameNumber = queueLength;    // we have wasted first 5 frames already 
+
+    while(true){	
+		Mat inputNextFrame; 
+		cap >> inputNextFrame;// cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;
+		//cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;
+		resize(inputNextFrame,inputNextFrame,Size(x,y),0,0,INTER_LINEAR);
+		if (inputNextFrame.empty()) break;
+		frameNumber += 1;	//	taking every 5th frame - Ma'am said we can take every 3rd or 5th	//
+
+		cvtColor(inputNextFrame, inputNextFrame, COLOR_BGR2GRAY);
+		inputNextFrame = warpWithoutUserInput(inputNextFrame,x,y);
+		myQueue.push(inputNextFrame);
+
+		imshow("Original Video" , inputNextFrame);
+		
+
+		Mat queueDensityImg = performBackgroundSubtraction(inputNextFrame, backGround);
+		Mat dynamicDensityImg = performOpticalFlow(previous, inputNextFrame);
+		imshow("Background Subtraction Output" , queueDensityImg);
+		imshow("Optical Flow Output" , dynamicDensityImg);
+
+		int whitePixels1 = countNonZero(queueDensityImg);
+		int whitePixels2= countNonZero(dynamicDensityImg);
+
+		performOutput(whitePixels1, whitePixels2, totalPixels, frameNumber, file);
+		
+		int keyboard = waitKey(1);
+        if (keyboard == 'q' || keyboard == 27) break;
+
+		//previous = inputNextFrame;
+		previous = myQueue.front();
+		myQueue.pop();
+    }
+    destroyAllWindows();
+    return;
+}
