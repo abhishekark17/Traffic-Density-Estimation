@@ -26,15 +26,19 @@ for i in range(1,6):
     error_queue.append(error_q)
     error_dynamic.append(error_d)
 time=np.random.rand(5)
-marker_q=['$1q$','$2q$','$3q$','$4q$','$5q$']
-marker_d=['$1D$','$2D$','$3D$','$4D$','$5D$']
+marker_q=["QM1","QM2","QM3","QM4","QM5"]
+marker_d=["DM1","DM2","DM3","DM4","DM5"]
 
 fig,ax=plt.subplots()
-ax.scatter(error_queue,time,marker="$Q$",label="Queue")
-ax.set_xlabel("Time")
-ax.set_ylabel("Error")
-ax.scatter(error_dynamic,time ,marker="$D$",label="Dynamic")
-ax.legend(loc='upper left', bbox_to_anchor=(0.0, 1.00), shadow=True, ncol=1)
+ax.scatter(error_queue,time,label="Queue")
+ax.set_xlabel("Error")
+for i in range(len(marker_q)):
+    ax.annotate(marker_q[i],(error_queue[i],time[i]))
+ax.set_ylabel("Time")
+ax.scatter(error_dynamic,time ,label="Dynamic")
+for i in range(len(marker_d)):
+    ax.annotate(marker_d[i],(error_dynamic[i],time[i]))
+#ax.legend(loc='upper left', bbox_to_anchor=(0.0, 1.00), shadow=True, ncol=1)
 plt.show()
 
 

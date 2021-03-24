@@ -100,6 +100,11 @@ void performMethod2 (Mat& backGround, VideoCapture& cap, ofstream& file,  int qu
             }
         }
 
+        vector<Point2f> additional;
+        goodFeaturesToTrack(inputNextFrame, additional, 100, 0.3, 7, Mat(), 7, false, 0.04);
+        good_new.insert(good_new.end(), additional.begin(), additional.end());
+
+
         Mat img;
         add (inputNextFrame, mask, img);
         imshow ("Sparse Optical Flow Output", img);
