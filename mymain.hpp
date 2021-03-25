@@ -16,10 +16,12 @@
 #include "OpticalFlow.hpp"
 #include "BGSubtraction.hpp"
 #include "IO.hpp"
+
 #include "SubTask2.hpp"
 #include "MethodOne.hpp"
 #include "MethodTwo.hpp"
-#include "methodThree.hpp"
+#include "MethodThree.hpp"
+#include "MethodFour.hpp"
 #include "MethodFive.hpp"
 
 

@@ -120,7 +120,7 @@ void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int qu
     destroyAllWindows();
     return;
 }
-
+// for method 4
 void performSpecialSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength, int beginFrame, int endFrame, int threadNumber) {
 
     //backGround = warp(backGround);
@@ -169,6 +169,74 @@ void performSpecialSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file,
 		int whitePixels1 = countNonZero(queueDensityImg);
 		int whitePixels2= countNonZero(dynamicDensityImg);
 
+		performOutput(whitePixels1, whitePixels2, totalPixels, frameNumber, file);
+		
+		//int keyboard = waitKey(1);
+        //if (keyboard == 'q' || keyboard == 27) break;
+
+		//previous = inputNextFrame;
+		previous = myQueue.front();
+		myQueue.pop();
+    }
+    destroyAllWindows();
+    return;
+}
+
+// 	FOR METHOD 5
+void performSubtask2M4 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength, int topLeftX, int topLeftY, int w, int h, int threadNumber) {
+
+    //backGround = warp(backGround);
+	int totalPixels = backGround.rows * backGround.cols;
+
+	const Rect cropRegion (topLeftX, topLeftY, w,h);
+    Mat bgCropped = backGround(cropRegion);
+
+	
+
+    //const int queueLength = 5;
+	queue<Mat> myQueue;
+	for (int i = 0; i < queueLength; i++) {
+		Mat temp;
+		cap >> temp;
+		cvtColor(temp,temp,COLOR_BGR2GRAY);
+		temp = warpWithoutUserInput(temp);
+		temp = temp (cropRegion);
+		myQueue.push(temp);
+	}
+	
+	Mat previous = myQueue.front();
+	myQueue.pop();
+
+
+	file<<"Frame,QueueDensity,DynamicDensity\n";
+	cout<<"Frame,QueueDensity,DynamicDensity\n";
+	int frameNumber = queueLength;    // we have wasted first 5 frames already 
+
+    while(true){	
+		Mat inputNextFrame; 
+		cap >> inputNextFrame;// cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;
+		//cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;
+		if (inputNextFrame.empty()) break;
+		frameNumber += 1;	//	taking every 5th frame - Ma'am said we can take every 3rd or 5th	//
+
+		cvtColor(inputNextFrame, inputNextFrame, COLOR_BGR2GRAY);
+		inputNextFrame = warpWithoutUserInput(inputNextFrame);
+		inputNextFrame = inputNextFrame(cropRegion);
+		myQueue.push(inputNextFrame);
+
+		imshow("Original Video of thread " + to_string(threadNumber) , inputNextFrame);
+		
+
+		Mat queueDensityImg = performBackgroundSubtraction(inputNextFrame, bgCropped);
+		Mat dynamicDensityImg = performOpticalFlow(previous, inputNextFrame);
+		imshow("Background Subtraction Output of thread " + to_string(threadNumber) , queueDensityImg);
+		imshow("Optical Flow Output of thread " + to_string(threadNumber) , dynamicDensityImg);
+
+		int whitePixels1 = countNonZero(queueDensityImg);
+		int whitePixels2= countNonZero(dynamicDensityImg);
+
+		// 	NOTE HERE THAT WE ARE DIVIDING HERE BY TOTALPIXELS AND NOT PIXELS OF CROPPED IMAGE SO THAT LATER ON WHILE CALCULATING 
+		// FINAL DENSITY OF WHOLE IMAGE, WE JUST NEED TO ADD UP COLUMNS PRODUCED BY DIFFERENT THREADS.
 		performOutput(whitePixels1, whitePixels2, totalPixels, frameNumber, file);
 		
 		//int keyboard = waitKey(1);

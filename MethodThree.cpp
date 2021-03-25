@@ -1,4 +1,4 @@
-#include "methodThree.hpp"
+#include "MethodThree.hpp"
 
 using namespace cv;
 using namespace std;

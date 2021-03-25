@@ -19,7 +19,6 @@
 
 using namespace cv;
 using namespace std;
-
-void workForEachThread (string videoPath, Mat backGround,int queueLength, int beginFrame, int endFrame, int threadNumber);
-void performMethod5 (string& videoPath, Mat& backGround,int queueLength, int numThreads);
+void workForEachThreadM4 (string videoPath, Mat backGround,int queueLength,int topLeftX, int topLeftY, int w, int h,int threadNumber);
+void performMethod4 (string& videoPath, Mat backGround,int queueLength, int numThreads);
 

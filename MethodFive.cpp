@@ -44,6 +44,5 @@ void performMethod5 (string& videoPath, Mat& backGround,int queueLength, int num
     }
 
     for (auto & x : allThreads) if (x.joinable()) x.join();
-    //for (int i = 0; i < allThreads.size(); i++) if (allThreads[i].joinable()) allThreads[i].join();
     return;
 }

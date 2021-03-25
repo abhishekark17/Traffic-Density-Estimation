@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("dataM5.csv")
+df = pd.read_csv("dataM3.csv")
 df=df.dropna()
 #print(df.head())
 fig,ax=plt.subplots()
