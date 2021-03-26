@@ -5,7 +5,7 @@ using namespace std;
 
 void workForEachThread (string videoPath, Mat backGround,int queueLength, int beginFrame, int endFrame, int threadNumber) {
     VideoCapture cap (videoPath);
-    ofstream file("dataM5T" + to_string(threadNumber)+ ".csv");	
+    ofstream file("../analysis/data/dataM5T" + to_string(threadNumber)+ ".csv");	
 	if (!cap.isOpened()) {
 		cout << "Error: video file is empty" << endl;
 		return;
