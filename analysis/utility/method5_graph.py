@@ -29,8 +29,8 @@ def graph_preprocess():
 
 def trade_off_graph(type_of_graph):
     error_queue,error_dynamic=graph_preprocess()
-    marker_q=["N1","N2","N3","N4","N5","N6"]
-    marker_d=["N1","N2","N3","N4","N5","N6"]
+    marker_q=["QN1","QN2","QN3","QN4","QN5","QN6"]
+    marker_d=["DN1","DN2","DN3","DN4","DN5","DN6"]
 
     fig,ax=plt.subplots()
     if type_of_graph=="queue": # only queue error
@@ -38,8 +38,8 @@ def trade_off_graph(type_of_graph):
         fig.suptitle("Queue Density Error (Method 5)")
         ax.set_xlabel("Error")
         ax.set_ylabel("Time")
-        plt.xlim(0,max(error_queue)*1.2)
-        ax.annotate("Normal Time = "+str(Normal_time),(min(error_queue)*1.2,Normal_time))
+        #plt.xlim(0,max(error_queue)*1.2)
+        #ax.annotate("Normal Time = "+str(Normal_time),(min(error_queue)*1.2,Normal_time))
         for i in range(len(marker_q)):
             ax.annotate(marker_q[i][1:],(error_queue[i],time[i]))
     elif type_of_graph=="dynamic": # only dynamic density
@@ -47,8 +47,8 @@ def trade_off_graph(type_of_graph):
         fig.suptitle("Dynamic Density Error (Method 5)")
         ax.set_xlabel("Error")
         ax.set_ylabel("Time")
-        plt.xlim(0,max(error_dynamic)*1.2)
-        ax.annotate("Normal Time = "+str(Normal_time),(min(error_dynamic)*1.2,Normal_time))
+        #plt.xlim(0,max(error_dynamic)*1.2)
+        #ax.annotate("Normal Time = "+str(Normal_time),(min(error_dynamic)*1.2,Normal_time))
         for i in range(len(marker_d)):
             ax.annotate(marker_d[i][1:],(error_dynamic[i],time[i]))
     else: # Both values in one graph (not recommended)
@@ -56,8 +56,8 @@ def trade_off_graph(type_of_graph):
         fig.suptitle("Both Queue and Dynamic Density Error (Method 5)")
         ax.set_xlabel("Error")
         ax.set_ylabel("Time")
-        plt.xlim(0,max(error_dynamic)*1.2)
-        ax.annotate("Normal Time = "+str(Normal_time),(min(error_dynamic)*1.2,Normal_time))
+        #plt.xlim(0,max(error_dynamic)*1.2)
+        #ax.annotate("Normal Time = "+str(Normal_time),(min(error_dynamic)*1.2,Normal_time))
         for i in range(len(marker_q)):
             ax.annotate(marker_q[i],(error_queue[i],time[i]))
         
@@ -65,7 +65,7 @@ def trade_off_graph(type_of_graph):
         for i in range(len(marker_d)):
             ax.annotate(marker_d[i],(error_dynamic[i],time[i]))
     #ax.legend(loc='upper left', bbox_to_anchor=(0.0, 1.00), shadow=True, ncol=1)
-    plt.ylim(0,Normal_time+50)
+    #plt.ylim(0,Normal_time+50)
     plt.savefig("../graphs/"+"method5_tradeoff_"+type_of_graph+".png")
     plt.show()
 

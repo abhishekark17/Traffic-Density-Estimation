@@ -5,7 +5,7 @@ import math
 import argparse
 
 df_base = pd.read_csv("../data/data.csv")
-time=[392,298,328,351,399,431]
+time=[377,298,328,369,399,431]
 
 Normal_time=395
 
@@ -39,8 +39,8 @@ def trade_off_graph(type_of_graph):
         fig.suptitle("Queue Density Error (Method 4)")
         ax.set_xlabel("Error")
         ax.set_ylabel("Time")
-        plt.xlim(0,max(error_queue)*1.2)
-        ax.annotate("Normal Time = "+str(Normal_time),(min(error_queue)*1.2,Normal_time))
+        #plt.xlim(0,max(error_queue)*1.2)
+        #ax.annotate("Normal Time = "+str(Normal_time),(min(error_queue)*1.2,Normal_time))
         for i in range(len(marker_q)):
             ax.annotate(marker_q[i][1:],(error_queue[i],time[i]))
     elif type_of_graph=="dynamic": # only dynamic density
@@ -48,8 +48,8 @@ def trade_off_graph(type_of_graph):
         fig.suptitle("Dynamic Density Error (Method 4)")
         ax.set_xlabel("Error")
         ax.set_ylabel("Time")
-        plt.xlim(0,max(error_dynamic)*1.2)
-        ax.annotate("Normal Time = "+str(Normal_time),(min(error_dynamic)*1.2,Normal_time))
+        #plt.xlim(0,max(error_dynamic)*1.2)
+        #ax.annotate("Normal Time = "+str(Normal_time),(min(error_dynamic)*1.2,Normal_time))
         for i in range(len(marker_d)):
             ax.annotate(marker_d[i][1:],(error_dynamic[i],time[i]))
     else: # Both values in one graph (not recommended)
@@ -57,8 +57,8 @@ def trade_off_graph(type_of_graph):
         fig.suptitle("Both Queue and Dynamic Density Error (Method 4)")
         ax.set_xlabel("Error")
         ax.set_ylabel("Time")
-        plt.xlim(0,max(error_dynamic)*1.2)
-        ax.annotate("Normal Time = "+str(Normal_time),(min(error_dynamic)*1.2,Normal_time))
+        #plt.xlim(0,max(error_dynamic)*1.2)
+        #ax.annotate("Normal Time = "+str(Normal_time),(min(error_dynamic)*1.2,Normal_time))
         for i in range(len(marker_q)):
             ax.annotate(marker_q[i],(error_queue[i],time[i]))
         
@@ -66,7 +66,7 @@ def trade_off_graph(type_of_graph):
         for i in range(len(marker_d)):
             ax.annotate(marker_d[i],(error_dynamic[i],time[i]))
     #ax.legend(loc='upper left', bbox_to_anchor=(0.0, 1.00), shadow=True, ncol=1)
-    plt.ylim(0,max(Normal_time,max(time))+50)
+    #plt.ylim(0,max(Normal_time,max(time))+50)
     plt.savefig("../graphs/"+"method4_tradeoff_"+type_of_graph+".png")
     plt.show()
 

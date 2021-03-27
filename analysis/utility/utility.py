@@ -5,7 +5,7 @@ import math
 import argparse
 
 df_base = pd.read_csv("../data/data.csv")
-time=[72,300,180,331,191]
+time=[72,106,180,292,191]
 Normal_time=395
 
 # This function collect all the data from all the threads of M4 and computes the total
@@ -54,7 +54,7 @@ def comparing_two_data(data1,data2):
 
 
 def graph_preprocess():
-    data4(4)
+    data4(2)
     data5(4)
     error_queue=[]
     error_dynamic=[]

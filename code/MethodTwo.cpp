@@ -65,49 +65,49 @@ void performMethod2 (Mat& backGround, VideoCapture& cap, ofstream& file,  int qu
 
         // copy pasted code.
         // calculate sparse optical flow
-        vector<uchar> status;
-        vector<float> err;
-        TermCriteria criteria = TermCriteria((TermCriteria::COUNT) + (TermCriteria::EPS), 10, 0.03);
-        calcOpticalFlowPyrLK(previous, inputNextFrame, p0, p1, status, err, Size(15,15), 2, criteria);
+        // vector<uchar> status;
+        // vector<float> err;
+        // TermCriteria criteria = TermCriteria((TermCriteria::COUNT) + (TermCriteria::EPS), 10, 0.03);
+        // calcOpticalFlowPyrLK(previous, inputNextFrame, p0, p1, status, err, Size(15,15), 2, criteria);
 
 
         Mat queueDensityImg = performBackgroundSubtraction(inputNextFrame, backGround);
-		//Mat dynamicDensityImg = performOpticalFlow(previous, inputNextFrame);
+		Mat dynamicDensityImg = performBackgroundSubtraction(inputNextFrame, previous);
 		imshow("Background Subtraction Output" , queueDensityImg);
-		//imshow("Optical Flow Output" , dynamicDensityImg);
+		imshow("Optical Flow Output" , dynamicDensityImg);
 
 		int whitePixels1 = countNonZero(queueDensityImg);
-		//int whitePixels2= countNonZero(dynamicDensityImg);
+		int whitePixels2= countNonZero(dynamicDensityImg);
 
 		//performOutput(whitePixels1, whitePixels2, totalPixels, frameNumber, file);
 		//for (int i = 1; i < x; i++) performOutput(whitePixels1,whitePixels2,totalPixels,frameNumber + i,file);
-        //performOutputM1(whitePixels1,whitePixels2,totalPixels,frameNumber,file, x);
+        performOutputM1(whitePixels1,whitePixels2,totalPixels,frameNumber,file, 5);
 
-        Mat forOutput = Mat::zeros(previous.size(), previous.type()) ;
-        for (auto x: p1) forOutput.at<uchar>(x) = 255;
+        // Mat forOutput = Mat::zeros(previous.size(), previous.type()) ;
+        // for (auto x: p1) forOutput.at<uchar>(x) = 255;
 
-        imshow ("check it", forOutput);
-
-
-        vector<Point2f> good_new;
-        for(uint i = 0; i < p0.size(); i++) {
-            // Select good points
-            if(status[i] == 1) {
-                good_new.push_back(p1[i]);
-                // draw the tracks
-                line(mask,p1[i], p0[i], colors[i], 2);
-                circle(inputNextFrame, p1[i], 5, colors[i], -1);
-            }
-        }
-
-        vector<Point2f> additional;
-        goodFeaturesToTrack(inputNextFrame, additional, 100, 0.3, 7, Mat(), 7, false, 0.04);
-        good_new.insert(good_new.end(), additional.begin(), additional.end());
+        //imshow ("check it", forOutput);
 
 
-        Mat img;
-        add (inputNextFrame, mask, img);
-        imshow ("Sparse Optical Flow Output", img);
+        // vector<Point2f> good_new;
+        // for(uint i = 0; i < p0.size(); i++) {
+        //     // Select good points
+        //     if(status[i] == 1) {
+        //         good_new.push_back(p1[i]);
+        //         // draw the tracks
+        //         line(mask,p1[i], p0[i], colors[i], 2);
+        //         circle(inputNextFrame, p1[i], 5, colors[i], -1);
+        //     }
+        // }
+
+        // vector<Point2f> additional;
+        // goodFeaturesToTrack(inputNextFrame, additional, 100, 0.3, 7, Mat(), 7, false, 0.04);
+        // good_new.insert(good_new.end(), additional.begin(), additional.end());
+
+
+        // Mat img;
+        // add (inputNextFrame, mask, img);
+        // imshow ("Sparse Optical Flow Output", img);
 
 
         int keyboard = waitKey(1);
@@ -116,7 +116,7 @@ void performMethod2 (Mat& backGround, VideoCapture& cap, ofstream& file,  int qu
 		previous = myQueue.front();
 		myQueue.pop();
 
-        p0 = good_new;
+        //p0 = good_new;
 
 
     }

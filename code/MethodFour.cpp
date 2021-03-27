@@ -25,19 +25,19 @@ void performMethod4 (string& videoPath, Mat backGround,int queueLength, int numT
     int bgWidth = sz.width;
     int bgHeight = sz.height;
 
-    int widthPerThread = bgWidth / numThreads;
+    int heightPerThread = bgHeight / numThreads;
     int tempTopLeftX = 0, tempTopLeftY = 0;
 
     vector<thread> allThreads;
 
     for (int i = 1; i <= numThreads; i++) {
-        allThreads.push_back(thread(workForEachThreadM4, videoPath,backGround,queueLength,tempTopLeftX,tempTopLeftY,widthPerThread,bgHeight,i,numThreads));
+        allThreads.push_back(thread(workForEachThreadM4, videoPath,backGround,queueLength,tempTopLeftX,tempTopLeftY,bgWidth,heightPerThread,i,numThreads));
 
         if (i == numThreads - 1) {
-            tempTopLeftX += widthPerThread;
-            widthPerThread = bgWidth - tempTopLeftX;
+            tempTopLeftY += heightPerThread;
+            heightPerThread = bgHeight - tempTopLeftY;
         }
-        else tempTopLeftX += widthPerThread;
+        else tempTopLeftY += heightPerThread;
         
     }
 
