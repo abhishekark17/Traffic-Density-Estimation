@@ -20,6 +20,6 @@
 using namespace cv;
 using namespace std;
 
-void workForEachThread (string videoPath, Mat backGround,int queueLength, int beginFrame, int endFrame, int threadNumber);
+void workForEachThread (string videoPath, Mat backGround,int queueLength, int beginFrame, int endFrame, int threadNumber,int totalthreads);
 void performMethod5 (string& videoPath, Mat& backGround,int queueLength, int numThreads);
 

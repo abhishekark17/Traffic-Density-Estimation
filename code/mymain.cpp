@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 	int method = 0;
 	ofstream file;
 	bool closeFile = false;
-
+	int numOfThreads=5;
 	if (argc==1 || argc == 2) {
 		cerr << "Video file and Method should be given as argument" << endl;
 		return -1;
@@ -20,6 +20,7 @@ int main(int argc, char* argv[])
 		string videoFileName=argv[1];
 		videopath = "../video/"+videoFileName;
 		method = stoi(argv[2]);
+		if(argc==4) numOfThreads=stoi(argv[3]);
 		if (method >5 || method < 0) {
 			cerr << "Method argument should be between 0 and 5 (both included)" << endl;
 			return -1;
@@ -79,13 +80,13 @@ int main(int argc, char* argv[])
 			break;
 		}
 		case 4: {
-			performMethod4(videopath,backGround,5,3);
+			performMethod4(videopath,backGround,5,numOfThreads);
 			break;
 		}
 		case 5: {
 			// Please warp background here itself for method 5
 			backGround = warp(backGround);
-			performMethod5(videopath,backGround,5,5);
+			performMethod5(videopath,backGround,5,numOfThreads);
 			break;
 		}
 	}

@@ -3,9 +3,9 @@
 using namespace cv;
 using namespace std;
 
-void workForEachThread (string videoPath, Mat backGround,int queueLength, int beginFrame, int endFrame, int threadNumber) {
+void workForEachThread (string videoPath, Mat backGround,int queueLength, int beginFrame, int endFrame, int threadNumber,int totalthreads) {
     VideoCapture cap (videoPath);
-    ofstream file("../analysis/data/dataM5T" + to_string(threadNumber)+ ".csv");	
+    ofstream file("../analysis/data/data5/dataM5N" +to_string(totalthreads)+"T"+ to_string(threadNumber)+ ".csv");	
 	if (!cap.isOpened()) {
 		cout << "Error: video file is empty" << endl;
 		return;
@@ -37,7 +37,7 @@ void performMethod5 (string& videoPath, Mat& backGround,int queueLength, int num
     for (int i = 1; i <= numThreads; i++) {
         //thread myTd (& workForEachThread, videoPath,backGround,queueLength,beginFrame,endFrame, i);
         //allThreads.push_back(myTd);
-        allThreads.push_back(thread(workForEachThread, videoPath,backGround,queueLength,beginFrame,endFrame, i));
+        allThreads.push_back(thread(workForEachThread, videoPath,backGround,queueLength,beginFrame,endFrame, i,numThreads));
         beginFrame += framesPerThread;
         if (i == numThreads - 1) endFrame = totalFrames;
         else endFrame += framesPerThread;

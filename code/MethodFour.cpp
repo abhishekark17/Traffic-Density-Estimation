@@ -4,9 +4,9 @@ using namespace cv;
 using namespace std;
 
 
-void workForEachThreadM4 (string videoPath, Mat backGround,int queueLength,int topLeftX, int topLeftY, int w, int h,int threadNumber) {
+void workForEachThreadM4 (string videoPath, Mat backGround,int queueLength,int topLeftX, int topLeftY, int w, int h,int threadNumber,int totalthreads) {
     VideoCapture cap (videoPath);
-    ofstream file("../analysis/data/dataM4T" + to_string(threadNumber)+ ".csv");	
+    ofstream file("../analysis/data/data4/dataM4N" +to_string(totalthreads) +"T"+ to_string(threadNumber)+".csv");	
 	if (!cap.isOpened()) {
 		cout << "Error: video file is empty" << endl;
 		return;
@@ -31,7 +31,7 @@ void performMethod4 (string& videoPath, Mat backGround,int queueLength, int numT
     vector<thread> allThreads;
 
     for (int i = 1; i <= numThreads; i++) {
-        allThreads.push_back(thread(workForEachThreadM4, videoPath,backGround,queueLength,tempTopLeftX,tempTopLeftY,widthPerThread,bgHeight,i));
+        allThreads.push_back(thread(workForEachThreadM4, videoPath,backGround,queueLength,tempTopLeftX,tempTopLeftY,widthPerThread,bgHeight,i,numThreads));
 
         if (i == numThreads - 1) {
             tempTopLeftX += widthPerThread;
