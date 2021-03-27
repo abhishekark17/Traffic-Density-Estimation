@@ -5,9 +5,18 @@ import math
 import argparse
 
 df_base = pd.read_csv("../data/data.csv")
-time=[377,298,328,369,399,431]
-
+time=[]
+numOfThreads=[]
 Normal_time=395
+df_time=pd.read_csv("../data/time.csv")
+for i in range(len(df_time["method"])):
+    x=df_time["method"][i]
+    t=df_time["time"][i]
+    if(len(x)>5):
+        if x[5]=="4":
+            time.append(int(t))
+            numOfThreads.append(x[7])
+
 
 def main(numofthreads):
     filename="../data/data4/dataM4N"+str(numofthreads)+".csv"
@@ -22,16 +31,21 @@ def main(numofthreads):
 def graph_preprocess():
     error_queue=[]
     error_dynamic=[]
-    for i in range(1,7):
-        error_q,error_d=main(i)
+    for i in range(len(time)):
+        error_q,error_d=main(numOfThreads[i])
         error_queue.append(error_q)
         error_dynamic.append(error_d)
     return(error_queue,error_dynamic)
 
 def trade_off_graph(type_of_graph):
     error_queue,error_dynamic=graph_preprocess()
-    marker_q=["N1","N2","N3","N4","N5","N6"]
-    marker_d=["N1","N2","N3","N4","N5","N6"]
+    marker_q=[]
+    marker_d=[]
+
+    for i in range(len(time)):
+        marker_q.append("QN"+str(numOfThreads[i]))
+        marker_d.append("DN"+str(numOfThreads[i]))
+
 
     fig,ax=plt.subplots()
     if type_of_graph=="queue": # only queue error

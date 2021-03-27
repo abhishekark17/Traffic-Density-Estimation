@@ -10,8 +10,12 @@ int main(int argc, char* argv[])
 	string videopath="../video/trafficvideo.mp4";
 	int method = 0;
 	ofstream file;
+	ofstream timings;
+	timings.open("../analysis/data/time.csv",ios::out|ios::app);
 	bool closeFile = false;
 	int numOfThreads=5;
+	int width=1920;
+	int height=1080;
 	if (argc==1 || argc == 2) {
 		cerr << "Video file and Method should be given as argument" << endl;
 		return -1;
@@ -20,7 +24,11 @@ int main(int argc, char* argv[])
 		string videoFileName=argv[1];
 		videopath = "../video/"+videoFileName;
 		method = stoi(argv[2]);
-		if(argc==4) numOfThreads=stoi(argv[3]);
+		if(argc>=4) {
+			if(method==4 || method==5) numOfThreads=stoi(argv[3]); 
+			else if(method==3) width=stoi(argv[3]);
+		}
+		if(argc==5) {height=stoi(argv[4]);}
 		if (method >5 || method < 0) {
 			cerr << "Method argument should be between 0 and 5 (both included)" << endl;
 			return -1;
@@ -43,7 +51,7 @@ int main(int argc, char* argv[])
 			break;
 		}
 		case 3: {
-			file.open ("../analysis/data/dataM3.csv");
+			file.open ("../analysis/data/data3/dataM3_"+to_string(width)+"_"+to_string(height)+".csv");
 			break;
 		}
 	}
@@ -76,7 +84,7 @@ int main(int argc, char* argv[])
 			break;
 		}
 		case 3: {
-			performMethod3 (backGround, cap, file, 5,1080,720);
+			performMethod3 (backGround, cap, file, 5,width,height);
 			break;
 		}
 		case 4: {
@@ -97,7 +105,16 @@ int main(int argc, char* argv[])
 
 	cout << endl << endl ;
 	cout << "TOTAL EXECUTION TIME (Method-" + to_string(method) +") :: " << duration.count() << " SECONDS" << endl << endl;
+	switch(method){
+		case 0: {timings<<"data"<<","<<duration.count()<<endl;break;}
+		case 1:	{timings<<"dataM1"<<","<<duration.count()<<endl;break;}
+		case 2: {timings<<"dataM2"<<","<<duration.count()<<endl;break;}
+		case 3: {timings<<"dataM3_"+to_string(width)+"_"+to_string(height)<<","<<duration.count()<<endl;break;}
+		case 4: {timings<<"dataM4N"+to_string(numOfThreads) <<","<<duration.count()<<endl;break;}
+		case 5: {timings<<"dataM5N"+to_string(numOfThreads) <<","<<duration.count()<<endl;break;}
+	}
 
 	if (closeFile) file.close();
+	timings.close();
     return 0;
 }

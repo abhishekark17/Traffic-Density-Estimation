@@ -71,7 +71,8 @@ void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int qu
 	for (int i = 0; i < queueLength; i++) {
 		Mat temp;
 		cap >> temp;
-		resize(temp,temp,Size(x,y),0,0,INTER_LINEAR);
+		Size size(x,y);
+		resize(temp,temp,size,0,0,INTER_LINEAR);
 		cvtColor(temp,temp,COLOR_BGR2GRAY);
 		temp = warpWithoutUserInput(temp,x,y);
 		myQueue.push(temp);
@@ -87,9 +88,10 @@ void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int qu
 
     while(true){	
 		Mat inputNextFrame; 
+		Size size(x,y);
 		cap >> inputNextFrame;// cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;
 		//cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;
-		resize(inputNextFrame,inputNextFrame,Size(x,y),0,0,INTER_LINEAR);
+		resize(inputNextFrame,inputNextFrame,size,0,0,INTER_LINEAR);
 		if (inputNextFrame.empty()) break;
 		frameNumber += 1;	//	taking every 5th frame - Ma'am said we can take every 3rd or 5th	//
 
