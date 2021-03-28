@@ -58,16 +58,29 @@ int main(int argc, char* argv[])
 
     VideoCapture cap(videopath);
 	if (!cap.isOpened()) {
-		cout << "Error: video file is empty" << endl;
+		std::cout << "Error: video file is empty" << endl;
 		return -1;
 	}
 	
     //	backGround :: Fixed background for background subtraction for vehicular density	//
     Mat backGround = imread(imagepath);
-	
+
+
+	// Read input points 
+	ifstream ip;
+	ip.open ("ip.txt");
+	vector<int> pts;
+	for (int i = 0; i < 8; i++) {
+		int coordinate;
+		ip >> coordinate;
+		pts.push_back(coordinate);
+	};
+	initializeInputPts(pts[0],pts[1],pts[2],pts[3],pts[4],pts[5],pts[6],pts[7]);
+	initializeDestPts ();
 
 	auto startTime = chrono::high_resolution_clock::now();
 	///////////////////////////////////////////////////////////	 WORKSPACE	/////////////////////////////////////////////////////////////////////
+	std::cout << "hello" << endl;
 
 	switch (method) {
 		case 0: {
@@ -84,6 +97,8 @@ int main(int argc, char* argv[])
 			break;
 		}
 		case 3: {
+			initializeInputPtsScaled(width,height);
+			initializeDestPtsScaled(width,height);
 			performMethod3 (backGround, cap, file, 5,width,height);
 			break;
 		}
@@ -93,7 +108,8 @@ int main(int argc, char* argv[])
 		}
 		case 5: {
 			// Please warp background here itself for method 5
-			backGround = warp(backGround);
+			//backGround = warp(backGround);
+			//backGround = warpWithoutUserInput (backGround);
 			performMethod5(videopath,backGround,5,numOfThreads);
 			break;
 		}

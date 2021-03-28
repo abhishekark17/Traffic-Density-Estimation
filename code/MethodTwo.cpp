@@ -7,7 +7,8 @@ using namespace std;
 
 void performMethod2 (Mat& backGround, VideoCapture& cap, ofstream& file,  int queueLength) {
     
-    backGround = warp(backGround);
+    //backGround = warp(backGround);
+    backGround = warpWithoutUserInput(backGround);
 	int totalPixels = backGround.rows * backGround.cols;
 
     // Create some random colors

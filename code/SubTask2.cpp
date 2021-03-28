@@ -5,7 +5,8 @@ using namespace std;
 
 void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength) {
 
-    backGround = warpSpecial(backGround);
+    //backGround = warpSpecial(backGround);
+	backGround = warpWithoutUserInput(backGround);
 	int totalPixels = backGround.rows * backGround.cols;
 
     //const int queueLength = 5;
@@ -63,7 +64,8 @@ void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int qu
 
 void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength,int x, int y) {
 
-    backGround = warp(backGround,x,y);
+    //backGround = warp(backGround,x,y);
+	backGround = warpWithoutUserInput(backGround,x,y);
 	int totalPixels = backGround.rows * backGround.cols;
 
     //const int queueLength = 5;
@@ -122,7 +124,7 @@ void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int qu
     destroyAllWindows();
     return;
 }
-// for method 4
+// for method 5
 void performSpecialSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength, int beginFrame, int endFrame, int threadNumber) {
 
     //backGround = warp(backGround);
@@ -184,10 +186,11 @@ void performSpecialSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file,
     return;
 }
 
-// 	FOR METHOD 5
-void performSubtask2M4 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength, int topLeftX, int topLeftY, int w, int h, int threadNumber) {
+// 	FOR METHOD 4
+void performSubtask2M4 (Mat backGround, VideoCapture& cap, ofstream& file, int queueLength, int topLeftX, int topLeftY, int w, int h, int threadNumber) {
 
     //backGround = warp(backGround);
+	backGround = warpWithoutUserInput(backGround);
 	int totalPixels = backGround.rows * backGround.cols;
 
 	const Rect cropRegion (topLeftX, topLeftY, w,h);

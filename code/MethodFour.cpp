@@ -20,7 +20,8 @@ void workForEachThreadM4 (string videoPath, Mat backGround,int queueLength,int t
 
 void performMethod4 (string& videoPath, Mat backGround,int queueLength, int numThreads) {
 
-    backGround = warp(backGround);
+    //backGround = warp(backGround);
+    backGround = warpWithoutUserInput(backGround);
     Size sz = backGround.size();
     int bgWidth = sz.width;
     int bgHeight = sz.height;

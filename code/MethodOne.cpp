@@ -12,7 +12,8 @@ using namespace std;
     Assumption: Larger the value of x, Lesser the RunTime and Higher the error.
 */
 void performMethod1 (Mat& backGround, VideoCapture& cap, ofstream& file,  int queueLength, int x) {
-    backGround = warp(backGround);
+    //backGround = warp(backGround);
+	backGround = warpWithoutUserInput(backGround);
 	int totalPixels = backGround.rows * backGround.cols;
 
 	queue<Mat> myQueue;

@@ -19,6 +19,11 @@ using namespace std;
 // vector<Point2f> inputPts;	// 4 pts taken from user to select the area of interest	//
 // vector<Point2f> Pts_dst;	// destination pts.	//
 // Mat imgGray; //backGroundground image displayed which will be used for selecting the four points//
+void initializeInputPts (int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
+void initializeDestPts ();
+void initializeInputPtsScaled (int x, int y);
+void initializeDestPtsScaled (int x, int y);
+
 
 void getPointsFromUser(int event, int x, int y, int flags, void* userData);
 Mat warp(Mat img);

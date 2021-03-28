@@ -5,7 +5,44 @@ using namespace std;
 
 vector<Point2f> inputPts;	// 4 pts taken from user to select the area of interest	//
 vector<Point2f> Pts_dst;	// destination pts.	//
+vector<Point2f> inputPts_scaled;
+vector<Point2f> Pts_dest_scaled;
 Mat imgGray; //backGroundground image displayed which will be used for selecting the four points//
+
+void initializeInputPts (int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) {
+	inputPts.clear();
+	inputPts.push_back(Point2f(x1,y1));
+	inputPts.push_back(Point2f(x2,y2));
+	inputPts.push_back(Point2f(x3,y3));
+	inputPts.push_back(Point2f(x4,y4));
+	return;
+}
+void initializeDestPts () {
+	Pts_dst.clear();
+	Pts_dst.push_back(Point2f(472, 52));
+	Pts_dst.push_back(Point2f(472, 830));
+	Pts_dst.push_back(Point2f(800, 830));
+	Pts_dst.push_back(Point2f(800, 52));
+	return;
+}
+void initializeInputPtsScaled (int x, int y) {
+	inputPts_scaled.clear();
+	float scale=(float)1920/(float)(x);
+	float scale1=(float)1080/(float)(y);
+
+	for (auto pt : inputPts) inputPts_scaled.push_back(Point2f((int)((float)pt.x/scale), (int)((float)pt.y/scale1)));
+	return;
+}
+void initializeDestPtsScaled (int x, int y) {
+	Pts_dest_scaled.clear();
+	float scale=(float)1920/(float)(x);
+	float scale1=(float)1080/(float)(y);
+	Pts_dst.push_back(Point2f((int)((float)472/scale), (int)((float)52/scale1)));
+	Pts_dst.push_back(Point2f((int)((float)472/scale), (int)((float)830/scale1)));
+	Pts_dst.push_back(Point2f((int)((float)800/scale), (int)((float)830/scale1)));
+	Pts_dst.push_back(Point2f((int)((float)800/scale), (int)((float)52/scale1)));
+	return;
+}
 
 //	taking input	//
 void getPointsFromUser(int event, int x, int y, int flags, void* userData) {
@@ -14,6 +51,22 @@ void getPointsFromUser(int event, int x, int y, int flags, void* userData) {
 		if (inputPts.size() < 4) inputPts.push_back(Point2f(x, y));
 	}
 }
+/*
+Mat finalWarp (Mat img) {
+	int w = img.size().width, h = img.size().height; //	w = 1920 h = 1080	//
+	Size size(w, h);
+
+	Mat transformedGray;
+	Mat croppedImg;
+	Mat imgGrey;
+	cvtColor(img, imgGrey, COLOR_BGR2GRAY); //	rgb to grayscale	//
+	Mat matrix = getPerspectiveTransform(inputPts, Pts_dst);	// get homography matrix
+	warpPerspective(imgGrey, transformedGray, matrix, size);
+
+	Rect roi(Point2i(472,52), Point2i(800,830));	//rect structure for cropping
+	croppedImg = transformedGray(roi);
+	return croppedImg;
+}*/
 
 Mat warp(Mat img) {
 	//	resetting both vectors	//
@@ -136,6 +189,14 @@ Mat warpWithoutUserInput(Mat image){
 }
 
 //For change in Resolutiion
+Mat warp1 (Mat image, int x, int y) {
+	int w = image.size().width, h = image.size().height; 
+	Size size(w, h);	
+	Mat matrix = getPerspectiveTransform(inputPts, Pts_dst);
+	warpPerspective(image, image, matrix, size);
+	Rect roi(Point2i(472,52), Point2i(800,830));
+	return image;
+}
 Mat warp(Mat img,int x, int y) {
 	//	resetting both vectors	//
 	Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
@@ -199,7 +260,9 @@ Mat warpWithoutUserInput(Mat image,int x, int y){
 	float scale=(float)1920/float(x);
 	float scale1=(float)1080/float(y);
 	Size size(w, h);	//	Input image resolution as checked by image properties also	//
-	Mat matrix = getPerspectiveTransform(inputPts, Pts_dst);
+
+	// 	MODIFIED
+	Mat matrix = getPerspectiveTransform(inputPts_scaled, Pts_dest_scaled);
 	warpPerspective(image, image, matrix, size);
 	Rect roi(Point2i((int)((float)472/scale),(int)((float)52/scale1)), Point2i((int)((float)800/scale),(int)((float)830/scale1)));	//rect structure for cropping
 	image = image(roi);
