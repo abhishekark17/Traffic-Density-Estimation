@@ -28,3 +28,12 @@ Mat warpWithoutUserInput(Mat image,int x,int y);
 void performOutput (int whitePixels1, int whitePixels2, int totalPixels, int frameNumber, ofstream& file);
 void performOutputM1(int whitePixels1,int whitePixels2,int totalPixels,int frameNumber,ofstream& file,int x);
 
+float getx1 ();
+float gety1 ();
+float getx2 ();
+float gety2 ();
+float getx3 ();
+float gety3 ();
+float getx4 ();
+float gety4 ();
+

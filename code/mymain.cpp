@@ -76,11 +76,11 @@ int main(int argc, char* argv[])
 			break;
 		}
 		case 1: {
-			performMethod1 (backGround,cap,file,4,10);
+			performMethod1 (backGround,cap,file,5,10);
 			break;
 		}
 		case 2: {
-			performMethod2 (backGround, cap, file, 4);
+			performMethod2 (backGround, cap, file, 5);
 			break;
 		}
 		case 3: {
@@ -105,6 +105,11 @@ int main(int argc, char* argv[])
 
 	cout << endl << endl ;
 	cout << "TOTAL EXECUTION TIME (Method-" + to_string(method) +") :: " << duration.count() << " SECONDS" << endl << endl;
+	cout << "Input points:" << endl;
+	cout << "(" +  to_string(getx1()) + "," + to_string(gety1()) + ")" << endl;
+	cout << "(" +  to_string(getx2()) + "," + to_string(gety2()) + ")" << endl;
+	cout << "(" +  to_string(getx3()) + "," + to_string(gety3()) + ")" << endl;
+	cout << "(" +  to_string(getx4()) + "," + to_string(gety4()) + ")" << endl;
 	switch(method){
 		case 0: {timings<<"data"<<","<<duration.count()<<endl;break;}
 		case 1:	{timings<<"dataM1"<<","<<duration.count()<<endl;break;}

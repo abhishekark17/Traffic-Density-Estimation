@@ -44,10 +44,20 @@ Mat warp(Mat img) {
 
 	//	Take Points as Input	//
 	cvtColor(img, imgGray, COLOR_BGR2GRAY); //	rgb to grayscale	//
-	imshow("Original Frame", imgGray);
+	// hard code input points 
+	inputPts.push_back(Point2f(996,210));
+	inputPts.push_back(Point2f(415,1007));
+	inputPts.push_back(Point2f(1545,1008));
+	inputPts.push_back(Point2f(1282,223));
 
+
+
+/* commented out previous code to take input of points
+	imshow("Original Frame", imgGray);
 	setMouseCallback("Original Frame", getPointsFromUser, &inputPts);	// take input
 	waitKey(0);	//	wait for infinite time till user presses any key.
+*/
+
 
 	//	Transform now!	//
 	Mat matrix = getPerspectiveTransform(inputPts, Pts_dst);	// get homography matrix
@@ -158,3 +168,12 @@ void performOutputM1 (int whitePixels1,int whitePixels2,int totalPixels,int fram
 	}
 	return;
 }
+
+float getx1 () {return inputPts[0].x;}
+float gety1 () {return inputPts[0].y;}
+float getx2 () {return inputPts[1].x;}
+float gety2 () {return inputPts[1].y;}
+float getx3 () {return inputPts[2].x;}
+float gety3 () {return inputPts[2].y;}
+float getx4 () {return inputPts[3].x;}
+float gety4 () {return inputPts[3].y;}
