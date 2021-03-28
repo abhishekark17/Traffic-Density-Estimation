@@ -5,7 +5,7 @@ using namespace std;
 
 void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength) {
 
-    backGround = warp(backGround);
+    backGround = warpSpecial(backGround);
 	int totalPixels = backGround.rows * backGround.cols;
 
     //const int queueLength = 5;
@@ -91,8 +91,8 @@ void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int qu
 		Size size(x,y);
 		cap >> inputNextFrame;// cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;
 		//cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;cap >> inputNextFrame;
-		resize(inputNextFrame,inputNextFrame,size,0,0,INTER_LINEAR);
 		if (inputNextFrame.empty()) break;
+		resize(inputNextFrame,inputNextFrame,size,0,0,INTER_LINEAR);
 		frameNumber += 1;	//	taking every 5th frame - Ma'am said we can take every 3rd or 5th	//
 
 		cvtColor(inputNextFrame, inputNextFrame, COLOR_BGR2GRAY);

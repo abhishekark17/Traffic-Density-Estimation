@@ -25,6 +25,7 @@ Mat warp(Mat img);
 Mat warp(Mat img,int x,int y);
 Mat warpWithoutUserInput(Mat image);
 Mat warpWithoutUserInput(Mat image,int x,int y);
+Mat warpSpecial (Mat img);
 void performOutput (int whitePixels1, int whitePixels2, int totalPixels, int frameNumber, ofstream& file);
 void performOutputM1(int whitePixels1,int whitePixels2,int totalPixels,int frameNumber,ofstream& file,int x);
 

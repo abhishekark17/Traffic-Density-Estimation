@@ -21,7 +21,6 @@ Mat warp(Mat img) {
 	Mat transformedGray;	// bird eye view of grayscale image: saved in memory	//
 	Mat croppedImg;
 
-	inputPts.clear();
 	Pts_dst.clear();
 	if (img.empty()) {
 		cout << "Error: Image file is empty" << endl;
@@ -45,11 +44,12 @@ Mat warp(Mat img) {
 	//	Take Points as Input	//
 	cvtColor(img, imgGray, COLOR_BGR2GRAY); //	rgb to grayscale	//
 	// hard code input points 
+	/*
 	inputPts.push_back(Point2f(996,210));
 	inputPts.push_back(Point2f(415,1007));
 	inputPts.push_back(Point2f(1545,1008));
 	inputPts.push_back(Point2f(1282,223));
-
+*/
 
 
 /* commented out previous code to take input of points
@@ -57,6 +57,58 @@ Mat warp(Mat img) {
 	setMouseCallback("Original Frame", getPointsFromUser, &inputPts);	// take input
 	waitKey(0);	//	wait for infinite time till user presses any key.
 */
+
+
+	//	Transform now!	//
+	Mat matrix = getPerspectiveTransform(inputPts, Pts_dst);	// get homography matrix
+	warpPerspective(imgGray, transformedGray, matrix, size);
+	//resize(transformedGray, transformedGray, Size(), 0.5, 0.5);
+
+
+	//	cropping	//
+	Rect roi(Point2i(472,52), Point2i(800,830));	//rect structure for cropping
+	croppedImg = transformedGray(roi);
+
+	waitKey(0);
+	return croppedImg;
+}
+
+Mat warpSpecial (Mat img) {
+	//	resetting both vectors	//
+	Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
+	Mat transformedGray;	// bird eye view of grayscale image: saved in memory	//
+	Mat croppedImg;
+
+	inputPts.clear();
+	Pts_dst.clear();
+	if (img.empty()) {
+		cout << "Error: Image file is empty" << endl;
+		return img;
+	}
+
+
+	int w = img.size().width, h = img.size().height; //	w = 1920 h = 1080	//
+	Size size(w, h);	//	Input image resolution as checked by image properties also	//
+
+
+	//	we take input as taken by Riju Ma'am, i.e top left point first and then in anti clockwise direction	//
+	//	these points below for destination transformation are as given by Riju Ma'am on the Course Website	//
+
+	Pts_dst.push_back(Point2f(472, 52));
+	Pts_dst.push_back(Point2f(472, 830));
+	Pts_dst.push_back(Point2f(800, 830));
+	Pts_dst.push_back(Point2f(800, 52));
+
+
+	//	Take Points as Input	//
+	cvtColor(img, imgGray, COLOR_BGR2GRAY); //	rgb to grayscale	//
+
+
+
+	imshow("Original Frame", imgGray);
+	setMouseCallback("Original Frame", getPointsFromUser, &inputPts);	// take input
+	waitKey(0);	//	wait for infinite time till user presses any key.
+	destroyWindow("Original Frame");
 
 
 	//	Transform now!	//
@@ -111,14 +163,22 @@ Mat warp(Mat img,int x, int y) {
 	Pts_dst.push_back(Point2f((int)((float)472/scale), (int)((float)830/scale1)));
 	Pts_dst.push_back(Point2f((int)((float)800/scale), (int)((float)830/scale1)));
 	Pts_dst.push_back(Point2f((int)((float)800/scale), (int)((float)52/scale1)));
+	//inputPts.push_back(Point2f(996,210));
+	inputPts.push_back(Point2f((int)((float)996/scale), (int)((float)210/scale1)));
+	//inputPts.push_back(Point2f(415,1007));
+	inputPts.push_back(Point2f((int)((float)415/scale), (int)((float)1007/scale1)));
+	//inputPts.push_back(Point2f(1545,1008));
+	inputPts.push_back(Point2f((int)((float)1545/scale), (int)((float)1008/scale1)));
+	//inputPts.push_back(Point2f(1282,223));
+	inputPts.push_back(Point2f((int)((float)1282/scale), (int)((float)223/scale1)));
 
 
 	//	Take Points as Input	//
 	cvtColor(img, imgGray, COLOR_BGR2GRAY); //	rgb to grayscale	//
-	imshow("Original Frame", imgGray);
+	//imshow("Original Frame", imgGray);
 
-	setMouseCallback("Original Frame", getPointsFromUser, &inputPts);	// take input
-	waitKey(0);	//	wait for infinite time till user presses any key.
+	//setMouseCallback("Original Frame", getPointsFromUser, &inputPts);	// take input
+	//waitKey(0);	//	wait for infinite time till user presses any key.
 
 	//	Transform now!	//
 	Mat matrix = getPerspectiveTransform(inputPts, Pts_dst);	// get homography matrix
