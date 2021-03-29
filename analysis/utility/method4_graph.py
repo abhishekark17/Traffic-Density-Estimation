@@ -8,6 +8,7 @@ df_base = pd.read_csv("../data/data.csv")
 time=[]
 numOfThreads=[]
 Normal_time=395
+textfile=open("final_error.txt","a")
 df_time=pd.read_csv("../data/time.csv")
 for i in range(len(df_time["method"])):
     x=df_time["method"][i]
@@ -15,7 +16,7 @@ for i in range(len(df_time["method"])):
     if(len(x)>5):
         if x[5]=="4":
             time.append(int(t))
-            numOfThreads.append(x[7])
+            numOfThreads.append(x[7:])
 
 
 def main(numofthreads):
@@ -35,6 +36,17 @@ def graph_preprocess():
         error_q,error_d=main(numOfThreads[i])
         error_queue.append(error_q)
         error_dynamic.append(error_d)
+    avg_error_q=sum(error_queue)/len(error_queue)
+    avg_error_d=sum(error_dynamic)/len(error_dynamic)
+    avg_time=sum(time)/len(time)
+    textfile.write("method4 ")
+    textfile.write(str(avg_error_q))
+    textfile.write(" ")
+    textfile.write(str(avg_error_d))
+    textfile.write(" ")
+    textfile.write(str(avg_time))
+    textfile.write("\n")
+    textfile.close()
     return(error_queue,error_dynamic)
 
 def trade_off_graph(type_of_graph):

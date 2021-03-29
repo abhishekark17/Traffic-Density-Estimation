@@ -16,6 +16,7 @@ int main(int argc, char* argv[])
 	int numOfThreads=5;
 	int width=1920;
 	int height=1080;
+	int frameSkip=10;
 	if (argc==1 || argc == 2) {
 		cerr << "Video file and Method should be given as argument" << endl;
 		return -1;
@@ -27,6 +28,7 @@ int main(int argc, char* argv[])
 		if(argc>=4) {
 			if(method==4 || method==5) numOfThreads=stoi(argv[3]); 
 			else if(method==3) width=stoi(argv[3]);
+			else if(method==1) frameSkip=stoi(argv[3]);
 		}
 		if(argc==5) {height=stoi(argv[4]);}
 		if (method >5 || method < 0) {
@@ -43,7 +45,7 @@ int main(int argc, char* argv[])
 			break;
 		}
 		case 1: {
-			file.open ("../analysis/data/dataM1.csv");
+			file.open ("../analysis/data/data1/dataM1F"+to_string(frameSkip)+".csv");
 			break;
 		}
 		case 2: {
@@ -80,7 +82,7 @@ int main(int argc, char* argv[])
 
 	auto startTime = chrono::high_resolution_clock::now();
 	///////////////////////////////////////////////////////////	 WORKSPACE	/////////////////////////////////////////////////////////////////////
-	std::cout << "hello" << endl;
+	//std::cout << "hello" << endl;
 
 	switch (method) {
 		case 0: {

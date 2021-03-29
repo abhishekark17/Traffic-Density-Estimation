@@ -6,7 +6,7 @@ DEPS = IO.hpp OpticalFlow.hpp BGSubtraction.hpp MethodOne.hpp MethodTwo.hpp Meth
 #	g++ mymain.cpp -o main -pthread -std=c++11 $(CC)
 all: 
 	g++ IO.cpp BGSubtraction.cpp OpticalFlow.cpp SubTask2.cpp MethodOne.cpp MethodTwo.cpp MethodThree.cpp MethodFour.cpp MethodFive.cpp mymain.cpp -o main -pthread $(CC)
-#	g++ -c IO.cpp BGSubtraction.cpp OpticalFlow.cpp MethodTwo.cpp -pthread $(CC)
+	g++ takeIP.cpp -o ip -pthread $(CC)
 
 clean:
 	rm -f main images/cropped* images/transformed* first *.o

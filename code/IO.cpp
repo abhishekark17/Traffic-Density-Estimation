@@ -37,10 +37,10 @@ void initializeDestPtsScaled (int x, int y) {
 	Pts_dest_scaled.clear();
 	float scale=(float)1920/(float)(x);
 	float scale1=(float)1080/(float)(y);
-	Pts_dst.push_back(Point2f((int)((float)472/scale), (int)((float)52/scale1)));
-	Pts_dst.push_back(Point2f((int)((float)472/scale), (int)((float)830/scale1)));
-	Pts_dst.push_back(Point2f((int)((float)800/scale), (int)((float)830/scale1)));
-	Pts_dst.push_back(Point2f((int)((float)800/scale), (int)((float)52/scale1)));
+	Pts_dest_scaled.push_back(Point2f((int)((float)472/scale), (int)((float)52/scale1)));
+	Pts_dest_scaled.push_back(Point2f((int)((float)472/scale), (int)((float)830/scale1)));
+	Pts_dest_scaled.push_back(Point2f((int)((float)800/scale), (int)((float)830/scale1)));
+	Pts_dest_scaled.push_back(Point2f((int)((float)800/scale), (int)((float)52/scale1)));
 	return;
 }
 

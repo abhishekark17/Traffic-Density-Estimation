@@ -21,24 +21,26 @@ void workForEachThreadM4 (string videoPath, Mat backGround,int queueLength,int t
 void performMethod4 (string& videoPath, Mat backGround,int queueLength, int numThreads) {
 
     //backGround = warp(backGround);
+    cvtColor(backGround,backGround,COLOR_BGR2GRAY);
     backGround = warpWithoutUserInput(backGround);
     Size sz = backGround.size();
     int bgWidth = sz.width;
     int bgHeight = sz.height;
 
-    int heightPerThread = bgHeight / numThreads;
+    int widthPerThread = bgWidth / numThreads;
     int tempTopLeftX = 0, tempTopLeftY = 0;
 
     vector<thread> allThreads;
 
     for (int i = 1; i <= numThreads; i++) {
-        allThreads.push_back(thread(workForEachThreadM4, videoPath,backGround,queueLength,tempTopLeftX,tempTopLeftY,bgWidth,heightPerThread,i,numThreads));
-
+        allThreads.push_back(thread(workForEachThreadM4, videoPath,backGround,queueLength,tempTopLeftX,tempTopLeftY,widthPerThread,bgHeight,i,numThreads));
         if (i == numThreads - 1) {
-            tempTopLeftY += heightPerThread;
-            heightPerThread = bgHeight - tempTopLeftY;
+            tempTopLeftX += widthPerThread;
+            widthPerThread = bgWidth - tempTopLeftX;
+            
         }
-        else tempTopLeftY += heightPerThread;
+        
+        else tempTopLeftX += widthPerThread;
         
     }
 

@@ -6,6 +6,7 @@ using namespace std;
 void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength) {
 
     //backGround = warpSpecial(backGround);
+	cvtColor(backGround,backGround,COLOR_BGR2GRAY);
 	backGround = warpWithoutUserInput(backGround);
 	int totalPixels = backGround.rows * backGround.cols;
 
@@ -51,8 +52,8 @@ void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int qu
 
 		performOutput(whitePixels1, whitePixels2, totalPixels, frameNumber, file);
 		
-		//int keyboard = waitKey(1);
-        //if (keyboard == 'q' || keyboard == 27) break;
+		int keyboard = waitKey(1);
+        if (keyboard == 'q' || keyboard == 27) break;
 
 		//previous = inputNextFrame;
 		previous = myQueue.front();
@@ -65,6 +66,7 @@ void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int qu
 void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength,int x, int y) {
 
     //backGround = warp(backGround,x,y);
+	cvtColor(backGround,backGround,COLOR_BGR2GRAY);
 	backGround = warpWithoutUserInput(backGround,x,y);
 	int totalPixels = backGround.rows * backGround.cols;
 
@@ -128,6 +130,8 @@ void performSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int qu
 void performSpecialSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file, int queueLength, int beginFrame, int endFrame, int threadNumber) {
 
     //backGround = warp(backGround);
+	cvtColor(backGround,backGround,COLOR_BGR2GRAY);
+	backGround=warpWithoutUserInput(backGround);
 	int totalPixels = backGround.rows * backGround.cols;
 	//CAP_PROP_POS_FRAMES 
 	cap.set(CAP_PROP_POS_FRAMES, max(0,beginFrame - queueLength));
@@ -162,21 +166,21 @@ void performSpecialSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file,
 		inputNextFrame = warpWithoutUserInput(inputNextFrame);
 		myQueue.push(inputNextFrame);
 
-		imshow("Original Video of thread " + to_string(threadNumber) , inputNextFrame);
+		//imshow("Original Video of thread " + to_string(threadNumber) , inputNextFrame);
 		
 
 		Mat queueDensityImg = performBackgroundSubtraction(inputNextFrame, backGround);
 		Mat dynamicDensityImg = performOpticalFlow(previous, inputNextFrame);
 		imshow("Background Subtraction Output of thread " + to_string(threadNumber) , queueDensityImg);
-		imshow("Optical Flow Output of thread " + to_string(threadNumber) , dynamicDensityImg);
+		//imshow("Optical Flow Output of thread " + to_string(threadNumber) , dynamicDensityImg);
 
 		int whitePixels1 = countNonZero(queueDensityImg);
 		int whitePixels2= countNonZero(dynamicDensityImg);
 
 		performOutput(whitePixels1, whitePixels2, totalPixels, frameNumber, file);
 		
-		//int keyboard = waitKey(1);
-        //if (keyboard == 'q' || keyboard == 27) break;
+		int keyboard = waitKey(1);
+        if (keyboard == 'q' || keyboard == 27) break;
 
 		//previous = inputNextFrame;
 		previous = myQueue.front();
@@ -190,7 +194,8 @@ void performSpecialSubtask2 (Mat& backGround, VideoCapture& cap, ofstream& file,
 void performSubtask2M4 (Mat backGround, VideoCapture& cap, ofstream& file, int queueLength, int topLeftX, int topLeftY, int w, int h, int threadNumber) {
 
     //backGround = warp(backGround);
-	backGround = warpWithoutUserInput(backGround);
+	//cvtColor(backGround,backGround,COLOR_BGR2GRAY);
+	//backGround = warpWithoutUserInput(backGround);
 	int totalPixels = backGround.rows * backGround.cols;
 
 	const Rect cropRegion (topLeftX, topLeftY, w,h);
@@ -229,13 +234,13 @@ void performSubtask2M4 (Mat backGround, VideoCapture& cap, ofstream& file, int q
 		inputNextFrame = inputNextFrame(cropRegion);
 		myQueue.push(inputNextFrame);
 
-		imshow("Original Video of thread " + to_string(threadNumber) , inputNextFrame);
+		//imshow("Original Video of thread " + to_string(threadNumber) , inputNextFrame);
 		
 
 		Mat queueDensityImg = performBackgroundSubtraction(inputNextFrame, bgCropped);
 		Mat dynamicDensityImg = performOpticalFlow(previous, inputNextFrame);
 		imshow("Background Subtraction Output of thread " + to_string(threadNumber) , queueDensityImg);
-		imshow("Optical Flow Output of thread " + to_string(threadNumber) , dynamicDensityImg);
+		//imshow("Optical Flow Output of thread " + to_string(threadNumber) , dynamicDensityImg);
 
 		int whitePixels1 = countNonZero(queueDensityImg);
 		int whitePixels2= countNonZero(dynamicDensityImg);
@@ -244,8 +249,8 @@ void performSubtask2M4 (Mat backGround, VideoCapture& cap, ofstream& file, int q
 		// FINAL DENSITY OF WHOLE IMAGE, WE JUST NEED TO ADD UP COLUMNS PRODUCED BY DIFFERENT THREADS.
 		performOutput(whitePixels1, whitePixels2, totalPixels, frameNumber, file);
 		
-		//int keyboard = waitKey(1);
-        //if (keyboard == 'q' || keyboard == 27) break;
+		int keyboard = waitKey(1);
+        if (keyboard == 'q' || keyboard == 27) break;
 
 		//previous = inputNextFrame;
 		previous = myQueue.front();

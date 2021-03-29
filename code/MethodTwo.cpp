@@ -8,6 +8,7 @@ using namespace std;
 void performMethod2 (Mat& backGround, VideoCapture& cap, ofstream& file,  int queueLength) {
     
     //backGround = warp(backGround);
+    cvtColor(backGround,backGround,COLOR_BGR2GRAY);
     backGround = warpWithoutUserInput(backGround);
 	int totalPixels = backGround.rows * backGround.cols;
 

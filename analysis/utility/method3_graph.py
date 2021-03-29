@@ -9,6 +9,7 @@ time=[]
 width=[]
 height=[]
 Normal_time=395
+textfile=open("final_error.txt","a")
 df_time=pd.read_csv("../data/time.csv")
 for i in range(len(df_time["method"])):
     x=df_time["method"][i]
@@ -23,7 +24,7 @@ for i in range(len(df_time["method"])):
             index=x.find("_")
             index2=x.find("_",index+1)
             width.append(int(x[index+1:index2]))
-            height.append(int(x[index2:-1]))
+            height.append(int(x[index2+1:]))
 
 def main(w,h):
     filename="../data/data3/dataM3_"+str(w)+"_"+str(h)+".csv"
@@ -36,12 +37,23 @@ def main(w,h):
     return (rms_q/rms_base_q,rms_d/rms_base_d)
 
 def graph_preprocess():
-    error_queue=[]
-    error_dynamic=[]
-    for i in range(len(time)):
+    error_queue=[0]
+    error_dynamic=[0]
+    for i in range(1,len(time)):
         error_q,error_d=main(width[i],height[i])
         error_queue.append(error_q)
         error_dynamic.append(error_d)
+    avg_error_q=sum(error_queue)/len(error_queue)
+    avg_error_d=sum(error_dynamic)/len(error_dynamic)
+    avg_time=sum(time)/len(time)
+    textfile.write("method3 ")
+    textfile.write(str(avg_error_q))
+    textfile.write(" ")
+    textfile.write(str(avg_error_d))
+    textfile.write(" ")
+    textfile.write(str(avg_time))
+    textfile.write("\n")
+    textfile.close()
     return(error_queue,error_dynamic)
 
 def trade_off_graph(type_of_graph):
@@ -51,13 +63,13 @@ def trade_off_graph(type_of_graph):
     marker_d=[]
 
     for i in range(len(time)):
-        marker_q.append("Q"+str(width)+"_"+str(height))
-        marker_d.append("D"+str(width)+"_"+str(height))
+        marker_q.append("Q"+str(width[i])+"_"+str(height[i]))
+        marker_d.append("D"+str(width[i])+"_"+str(height[i]))
 
     fig,ax=plt.subplots()
     if type_of_graph=="queue": # only queue error
         ax.scatter(error_queue,time)
-        fig.suptitle("Queue Density Error (Method 4)")
+        fig.suptitle("Queue Density Error (Method 3)")
         ax.set_xlabel("Error")
         ax.set_ylabel("Time")
         #plt.xlim(0,max(error_queue)*1.2)
@@ -66,7 +78,7 @@ def trade_off_graph(type_of_graph):
             ax.annotate(marker_q[i][1:],(error_queue[i],time[i]))
     elif type_of_graph=="dynamic": # only dynamic density
         ax.scatter(error_dynamic,time)
-        fig.suptitle("Dynamic Density Error (Method 4)")
+        fig.suptitle("Dynamic Density Error (Method 3)")
         ax.set_xlabel("Error")
         ax.set_ylabel("Time")
         #plt.xlim(0,max(error_dynamic)*1.2)
@@ -75,7 +87,7 @@ def trade_off_graph(type_of_graph):
             ax.annotate(marker_d[i][1:],(error_dynamic[i],time[i]))
     else: # Both values in one graph (not recommended)
         ax.scatter(error_queue,time)
-        fig.suptitle("Both Queue and Dynamic Density Error (Method 4)")
+        fig.suptitle("Both Queue and Dynamic Density Error (Method 3)")
         ax.set_xlabel("Error")
         ax.set_ylabel("Time")
         #plt.xlim(0,max(error_dynamic)*1.2)
@@ -88,7 +100,7 @@ def trade_off_graph(type_of_graph):
             ax.annotate(marker_d[i],(error_dynamic[i],time[i]))
     #ax.legend(loc='upper left', bbox_to_anchor=(0.0, 1.00), shadow=True, ncol=1)
     #plt.ylim(0,max(Normal_time,max(time))+50)
-    plt.savefig("../graphs/"+"method4_tradeoff_"+type_of_graph+".png")
+    plt.savefig("../graphs/"+"method3_tradeoff_"+type_of_graph+".png")
     plt.show()
 
 if __name__=='__main__':

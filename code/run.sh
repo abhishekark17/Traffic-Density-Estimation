@@ -1,4 +1,7 @@
 #!/bin/bash
+
+./ip
+
 ./main trafficvideo.mp4 0
 
 ./main trafficvideo.mp4 1
@@ -15,9 +18,9 @@ do
    ./main trafficvideo.mp4 4 $i
 done
 
-for i in {1..5}
+for i in {2..5}
 do
-   ./main trafficvideo.mp4 4 $i
+   ./main trafficvideo.mp4 5 $i
 done
 
 cd ..
@@ -33,13 +36,13 @@ python3 graph.py --file data
 
 for x in queue dynamic both
 do
-    python3 utility.py --type $x
+    python3 method1_graph.py --type $x
+    python3 method3_graph.py --type $x
     python3 method4_graph.py --type $x
-    python3 method5_graph.py --type $x
     python3 method5_graph.py --type $x
 done
 
-for i in {1..5}
+for x in queue dynamic both
 do
-    python3 graph.py --file dataM$i
+   python3 utility.py --type $x
 done
