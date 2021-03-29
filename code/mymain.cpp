@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
 	cout << "(" +  to_string(getx4()) + "," + to_string(gety4()) + ")" << endl;
 	switch(method){
 		case 0: {timings<<"data"<<","<<duration.count()<<endl;break;}
-		case 1:	{timings<<"dataM1"<<","<<duration.count()<<endl;break;}
+		case 1:	{timings<<"dataM1F"+to_string(frameSkip)<<","<<duration.count()<<endl;break;}
 		case 2: {timings<<"dataM2"<<","<<duration.count()<<endl;break;}
 		case 3: {timings<<"dataM3_"+to_string(width)+"_"+to_string(height)<<","<<duration.count()<<endl;break;}
 		case 4: {timings<<"dataM4N"+to_string(numOfThreads) <<","<<duration.count()<<endl;break;}
