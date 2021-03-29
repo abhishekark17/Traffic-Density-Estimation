@@ -21,10 +21,10 @@
 #    ./main trafficvideo.mp4 4 $i
 # done
 
-for i in {1..9}
-do
-   ./main trafficvideo.mp4 5 $i
-done
+# for i in {1..9}
+# do
+#    ./main trafficvideo.mp4 5 $i
+# done
 
 cd ..
 cd analysis

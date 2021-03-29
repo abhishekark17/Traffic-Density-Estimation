@@ -15,7 +15,7 @@ def graph(data):
     ax.legend(loc='upper left', bbox_to_anchor=(0.0, 1.00), shadow=True, ncol=1)
     fig.suptitle(data)
     plt.savefig("../graphs/"+data+".png")
-    plt.show()
+    #plt.show()
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
