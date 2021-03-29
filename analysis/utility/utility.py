@@ -122,7 +122,7 @@ def trade_off_graph(type_of_graph):
     #ax.legend(loc='upper left', bbox_to_anchor=(0.0, 1.00), shadow=True, ncol=1)
     #plt.ylim(0,Normal_time+50)
     plt.savefig("../graphs/"+"tradeoff_"+type_of_graph+".png")
-    plt.show()
+    #plt.show()
 
 
 if __name__=='__main__':

@@ -94,7 +94,7 @@ def trade_off_graph(type_of_graph):
     #ax.legend(loc='upper left', bbox_to_anchor=(0.0, 1.00), shadow=True, ncol=1)
     #plt.ylim(0,max(Normal_time,max(time))+50)
     plt.savefig("../graphs/"+"method4_tradeoff_"+type_of_graph+".png")
-    plt.show()
+    #plt.show()
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser()

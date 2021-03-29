@@ -38,12 +38,12 @@ void performMethod2 (Mat& backGround, VideoCapture& cap, ofstream& file,  int qu
 	myQueue.pop();
 
     cout << previous.type() << " this is the type\n";
-    vector<Point2f> p0, p1;
-    goodFeaturesToTrack(previous, p0, 100, 0.3, 7, Mat(), 7, false, 0.04);
+    //vector<Point2f> p0, p1;
+    //goodFeaturesToTrack(previous, p0, 100, 0.3, 7, Mat(), 7, false, 0.04);
 
     
     // Create a mask image for drawing purposes
-    Mat mask = Mat::zeros(previous.size(), previous.type());
+    //Mat mask = Mat::zeros(previous.size(), previous.type());
 
 
 
@@ -81,9 +81,9 @@ void performMethod2 (Mat& backGround, VideoCapture& cap, ofstream& file,  int qu
 		int whitePixels1 = countNonZero(queueDensityImg);
 		int whitePixels2= countNonZero(dynamicDensityImg);
 
-		//performOutput(whitePixels1, whitePixels2, totalPixels, frameNumber, file);
+		performOutput(whitePixels1, whitePixels2, totalPixels, frameNumber, file);
 		//for (int i = 1; i < x; i++) performOutput(whitePixels1,whitePixels2,totalPixels,frameNumber + i,file);
-        performOutputM1(whitePixels1,whitePixels2,totalPixels,frameNumber,file, 5);
+        //performOutputM1(whitePixels1,whitePixels2,totalPixels,frameNumber,file, 5);
 
         // Mat forOutput = Mat::zeros(previous.size(), previous.type()) ;
         // for (auto x: p1) forOutput.at<uchar>(x) = 255;
