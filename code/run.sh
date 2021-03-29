@@ -1,30 +1,30 @@
 #!/bin/bash
 
-# ./ip
+./ip
 
-# ./main trafficvideo.mp4 0
+./main trafficvideo.mp4 0
 
-# for i in 5 10 15 20 25 30
-# do
-#    ./main trafficvideo.mp4 1 $i
-# done
+for i in 5 10 15 20 25 30
+do
+   ./main trafficvideo.mp4 1 $i
+done
 
-# ./main trafficvideo.mp4 2
+./main trafficvideo.mp4 2
 
-# ./main trafficvideo.mp4 3 1280 720
-# ./main trafficvideo.mp4 3 720 576
-# ./main trafficvideo.mp4 3 640 360
-# ./main trafficvideo.mp4 3 320 180
+./main trafficvideo.mp4 3 1280 720
+./main trafficvideo.mp4 3 720 576
+./main trafficvideo.mp4 3 640 360
+./main trafficvideo.mp4 3 320 180
 
-# for i in {1..9}
-# do
-#    ./main trafficvideo.mp4 4 $i
-# done
+for i in {1..9}
+do
+   ./main trafficvideo.mp4 4 $i
+done
 
-# for i in {1..9}
-# do
-#    ./main trafficvideo.mp4 5 $i
-# done
+for i in {1..9}
+do
+   ./main trafficvideo.mp4 5 $i
+done
 
 cd ..
 cd analysis
@@ -36,6 +36,7 @@ do
 done
 
 python3 graph.py --file data
+python3 graph.py --file dataM2
 
 for x in queue dynamic both
 do
