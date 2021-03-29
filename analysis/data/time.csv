@@ -1,7 +1,6 @@
 method,time
 
 data,386
-dataM1F10,64
 dataM2,102
 dataM3_1280_720,189
 dataM3_720_576,98
@@ -18,3 +17,6 @@ dataM5N3,204
 dataM5N4,191
 dataM5N5,189
 dataM2,103
+dataM1F10,80
+dataM1F20,63
+dataM1F30,35

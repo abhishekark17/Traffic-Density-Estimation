@@ -91,7 +91,7 @@ int main(int argc, char* argv[])
 			break;
 		}
 		case 1: {
-			performMethod1 (backGround,cap,file,5,10);
+			performMethod1 (backGround,cap,file,5,frameSkip);
 			break;
 		}
 		case 2: {

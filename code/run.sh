@@ -13,12 +13,12 @@
 ./main trafficvideo.mp4 3 640 360
 ./main trafficvideo.mp4 3 320 180
 
-for i in {1..5}
+for i in {1..9}
 do
    ./main trafficvideo.mp4 4 $i
 done
 
-for i in {2..5}
+for i in {1..9}
 do
    ./main trafficvideo.mp4 5 $i
 done
@@ -26,7 +26,7 @@ done
 cd ..
 cd analysis
 cd utility
-for i in {1..5}
+for i in {1..9}
 do
    python3 method4.py --n $i
    python3 method5.py --n $i
