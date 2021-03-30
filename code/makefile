@@ -9,6 +9,6 @@ all:
 	g++ takeIP.cpp -o ip -pthread $(CC)
 
 deleteData:
-	rm *.csv *.png
+	rm -f *.csv *.png
 clean:
 	rm -f main ip 

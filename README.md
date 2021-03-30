@@ -13,6 +13,8 @@ Install all the requiremnets.
     - `<MethodNum>` ranges from 0 to 5.<br/> **0** stands for *subtask 2* while **1-5** stands for corresponding methods.
     ### OR
     use **`./run.sh`** for complete procedure.
+6. use `make deleteData` to delete all the data and graph images.
+7. use `make clean` to delete executables.
 
 ## Analysis
 The data created by running all the methods will be available in `analysis/data/` folder.
