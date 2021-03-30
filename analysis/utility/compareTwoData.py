@@ -15,7 +15,10 @@ def comparing_two_data(data1,data2):
     rms_1_d = math.sqrt((np.sum(df["DynamicDensity_x"]**2)/len(df["Frame"])))
     rms_q = math.sqrt(np.sum((df["QueueDensity_x"]-df["QueueDensity_y"])**2)/len(df["Frame"]))
     rms_d = math.sqrt(np.sum((df["DynamicDensity_x"]-df["DynamicDensity_y"])**2)/len(df["Frame"]))
-    return (rms_q/rms_1_q,rms_d/rms_1_d)
+    print("RMS QueueDensity Error:")
+    print(rms_q/rms_1_q)
+    print("RMS DynamicDensity Error:")
+    print(rms_d/rms_1_d)
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
