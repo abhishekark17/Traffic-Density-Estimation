@@ -8,5 +8,7 @@ all:
 	g++ IO.cpp BGSubtraction.cpp OpticalFlow.cpp SubTask2.cpp MethodOne.cpp MethodTwo.cpp MethodThree.cpp MethodFour.cpp MethodFive.cpp mymain.cpp -o main -pthread $(CC)
 	g++ takeIP.cpp -o ip -pthread $(CC)
 
+deleteData:
+	rm *.csv *.png
 clean:
-	rm -f main images/cropped* images/transformed* first *.o
+	rm -f main ip 
